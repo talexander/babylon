@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from store.views.default import DefaultView 
+from store.views.index import IndexView 
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -7,7 +7,7 @@ from store.views.default import DefaultView
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', DefaultView.as_view()),
+     url(r'^$', IndexView.as_view()),
     # url(r'^store/', include('store.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

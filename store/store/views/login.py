@@ -2,5 +2,6 @@
 
 from django.views.generic import TemplateView
 
-class DefaultView(TemplateView):
-    template_name = "root.tpl"
+class LoginView(TemplateView):
+     template_name = "login.tpl"
+

@@ -1,4 +1,5 @@
 # Django settings for store project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,10 +13,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
+        'NAME': 'store',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'mysqlpsw',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
@@ -34,6 +35,11 @@ TIME_ZONE = 'Europe/Moscow'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'ru-ru'
+gettext = lambda s: s
+LANGUAGES = (
+    ('en', gettext('English')),
+    ('ru', gettext('Russian')),
+)
 
 SITE_ID = 1
 
@@ -47,6 +53,8 @@ USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+APP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '') 
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -65,7 +73,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
+STATIC_URL = 'http://static.store.loc/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -161,7 +169,7 @@ LOGGING = {
 
 DEBUG_TOOLBAR_PANELS = (
 	'debug_toolbar.panels.version.VersionDebugPanel',
-        'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
 	'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
 	'debug_toolbar.panels.headers.HeaderDebugPanel',
 	'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',

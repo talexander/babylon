@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html>
-    {% include "include/page/header.tpl" %}
+<head>
+    <meta charset="UTF-8">
+    {% block seo %}
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    {% endblock %}
+
+    <link rel="shortcut icon" href="{{STATIC_URL}}i/favicon.ico">
+
+    {% block css %}
+    <link href="{{STATIC_URL}}css/common.css?{{ rand }}" rel="stylesheet" type="text/css" />
+    {% endblock %}
+
+    {% block js %}
+    <!-- add js here! -->
+    {% endblock %}
+
+    <title>{{page.title|default:"3 Слона"}}</title>
+</head>
+
     <body>
         <div id="main_header">
             <!--div class="auth">

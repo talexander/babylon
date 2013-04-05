@@ -1,0 +1,11 @@
+#register_form {
+    margin: 15px 20px;
+}
+
+
+#register_form li label {
+    width: 150px;
+    display: inline-block;
+}
+
+

@@ -3,9 +3,10 @@
 {% block content %}
 register page
 
-Debug
-<pre>
-    {% debug %}
-</pre>
+
+<form action="/register/" method="post">
+    {% csrf_token %}
+    {{ form.as_ul }}
+</form>
  
 {% endblock %}

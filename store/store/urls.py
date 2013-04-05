@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from store.views.default import DefaultView
+from store.views.index import IndexView 
 from store.views.login import LoginView
 from store.views.register import RegisterView
 
@@ -9,7 +9,7 @@ from store.views.register import RegisterView
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', DefaultView.as_view()),
+     url(r'^$', IndexView.as_view()),
      url(r'^login/?$', LoginView.as_view()),
      url(r'^register/?$', RegisterView.as_view()),
 

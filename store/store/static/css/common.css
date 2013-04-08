@@ -1,6 +1,47 @@
-li {
-    list-style-type: none;
+/* RESET */
+html, body, div, span, applet, input, textarea, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, 
+big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, 
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0; padding: 0; border: 0; outline: 0;
+	font-weight: inherit;   font-style: inherit; font-size: 100%;
+	vertical-align: baseline; font-family: arial; 
 }
+
+:focus { outline: 0; }
+button::-moz-focus-inner { border: 0; }
+button{ cursor: pointer;  }
+ol, ul { list-style: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+caption, th, td { text-align: left; font-weight: normal; }
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+a { outline: none; text-decoration: none; border:none; }
+li { list-style-type: none;}
+
+/*COMMON*/
+a { color: #3972a7; }
+.inlineBlock { display: -moz-inline-stack; display: inline-block; _overflow: hidden; zoom: 1; *display:inline; vertical-align: top; }
+
+.inline{ display:inline; }
+.block{ display:block; }
+.hidden{ display:none; }
+.fLeft{ float:left; }
+.fRight{ float:right; }
+
+.clear { zoom: 1 }
+.clear:after { content: ' '; clear:both; display: block; width: 0; height: 0; overflow: hidden; font-size: 0; }
+
+.center { margin: 0 auto; }
+.b, strong { font-weight: bold; }
+.i, em { font-style: italic; }
+.overflowH { overflow: hidden; zoom:1; }
+.nowrap { white-space: nowrap; }
+.taRight { text-align: right; }
+.taLeft { text-align: left; }
+.taCenter { text-align: center; }
+.mLeft { margin-left: 100px; }
+
+/* ALL PAGES */
 #main_container{
     margin: 100px auto;
     width: 800px;

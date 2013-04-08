@@ -14,6 +14,7 @@
     {% endblock %}
 
     {% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.9.1.js"></script>
     <!-- add js here! -->
     {% endblock %}
 

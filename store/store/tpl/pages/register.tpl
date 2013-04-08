@@ -8,7 +8,8 @@
 
 {% block js %}
     {{ block.super }}
-    <!-- my js -->
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-validate.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/register.js"></script>
 {% endblock  %}
 
 {% block content %}

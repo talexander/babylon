@@ -8,6 +8,7 @@
     {% endblock %}
 
     <link rel="shortcut icon" href="{{STATIC_URL}}i/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {% block css %}
     <link href="{{STATIC_URL}}css/common.css?{{ rand }}" rel="stylesheet" type="text/css" />
@@ -17,6 +18,8 @@
 
     {% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-utils.js"></script>
     <!-- add js here! -->
     {% endblock %}
 

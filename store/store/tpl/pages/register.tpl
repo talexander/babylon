@@ -19,35 +19,35 @@
     {% csrf_token %}
     <div class="control-group">
         <div class="controls">
-            <input name="first_name" type="text" placeholder="Имя" class="input-large" data-validate="firstname" />
+            <input name="first_name" type="text" placeholder="Имя" class="input-large" />
             <span class="help-inline"></span>
         </div>
     </div>
 
     <div class="control-group">
         <div class="controls">
-            <input name="last_name" type="text" placeholder="Фамилия" class="input-large" data-validate="last_name" />
+            <input name="last_name" type="text" placeholder="Фамилия" class="input-large" />
             <span class="help-inline"></span>
         </div>
     </div>
 
     <div class="control-group">
         <div class="controls">
-            <input name="email" type="email" placeholder="Email" class="input-large" data-validate="email" />
+            <input name="email" type="text" placeholder="Email" class="input-large" />
             <span class="help-inline"></span>
         </div>
     </div>
     
     <div class="control-group">
         <div class="controls">
-            <input name="password" type="password" placeholder="Пароль" class="input-large" data-validate="password"  />
+            <input name="password" type="password" placeholder="Пароль" class="input-large" />
             <span class="help-inline"></span>
         </div>
     </div>
 
     <div class="control-group">
         <div class="controls">
-            <input name="password_confirm" type="password" placeholder="Подтверждение пароля" class="input-large" data-validate="password" />
+            <input name="password_confirm" type="password" placeholder="Подтверждение пароля" class="input-large" />
             <span class="help-inline"></span>
         </div>
     </div>

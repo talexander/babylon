@@ -11,6 +11,8 @@
 
     {% block css %}
     <link href="{{STATIC_URL}}css/common.css?{{ rand }}" rel="stylesheet" type="text/css" />
+    <link href="{{STATIC_URL}}css/bootstrap.css?{{ rand }}" rel="stylesheet" type="text/css" />
+    <link href="{{STATIC_URL}}css/bootstrap-responsive.css?{{ rand }}" rel="stylesheet" type="text/css" />
     {% endblock %}
 
     {% block js %}

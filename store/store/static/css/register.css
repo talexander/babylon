@@ -9,10 +9,6 @@
 }
 
 #register_form .text_input {
-    border: 1px solid #555;
-    border-radius: 4px 4px 4px 4px;
-    height: 25px;
-    width: 230px;
 }
 
 #register_form li {

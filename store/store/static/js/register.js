@@ -49,6 +49,28 @@
         bindEvents();
 
     });
+
+    function validateFieldTrigger(field) {
+        var cfg = validateConf[field];
+        var res = validateField(field);
+        if ($.trim(cfg.elem.val()).length == 0) {
+            return false;
+        }
+        if(res.status) {
+            if(cfg.elem.data('validation-error') != "noerrors") {
+                cfg.elem.tooltip('hide')
+                    .data('validation-error', 'noerrors')
+                    .closest('div.control-group').addClass('success').removeClass('error'); 
+            }
+        } else {
+            var err = res.errors.shift();
+            if(cfg.elem.data('validation-error') != err.rule) {
+                cfg.elem.tooltip('show')
+                .data('validation-error', res.rule)
+                .closest('div.control-group').addClass('error').removeClass('success');
+            }
+        }
+    }
     
     function bindEvents(){
         $('#register_form').submit(function(event) {
@@ -56,18 +78,22 @@
             validateForm(this);
         });
         
-        console.info('vConf', validateConf);
         $.each(validateConf, function(field, cfg) {
-            cfg.elem.focusout(function(event){
                 var res = validateField(field);
-                if(!res.status) {
-                    var err = res.errors.shift();
-                    cfg.elem.tooltip({
-                        title: err.msg,
-                        placement: 'bottom',
-                    });
-                }
-            });
+                cfg.elem
+                    .keyup($.proxy(validateFieldTrigger, this, field))
+                    .focusout(function(){
+                        cfg.elem.tooltip('hide');
+                    })
+                    .tooltip({
+                    title: function() {
+                        var cfg = validateConf[field];
+                        var res = validateField(field);
+                        return res.status ? '' : res.errors.shift().msg;
+                    },
+                   placement: 'bottom',
+                   trigger: 'manual'
+                });
         });
     };
 

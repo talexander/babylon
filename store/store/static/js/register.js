@@ -1,7 +1,5 @@
 (function(){
-    console.info('fn2', $);
     $(function(){
-
         var form = $('#register_form');
         validateConf = {
             first_name: {
@@ -46,7 +44,11 @@
             }
         };
 
-        bindEvents();
+        if(form.hasClass('resend')) {
+            validateForm(form);
+        }
+
+        //bindEvents();
 
     });
 
@@ -75,7 +77,9 @@
     function bindEvents(){
         $('#register_form').submit(function(event) {
             event.preventDefault();
-            validateForm(this);
+            if(validateForm(this)) {
+                return true;
+            }
         });
         
         $.each(validateConf, function(field, cfg) {
@@ -99,20 +103,21 @@
 
     var validateConf;
     function validateForm(form) {
+        var status = 1;
         $.each(validateConf, function(field, elem) {
             var res = validateField(field);   
             if(!res.status) {
+                status = 0;
                 $(validateConf[field].elem).closest('div.control-group').addClass('error').removeClass('success');
                 var err = res.errors.shift();
-                console.info(err.rule);
                 if(err.rule != "required") {
-                    console.info('msg', err.msg);
-                    console.info('elem', $(validateConf[field].elem).next());
                     $(validateConf[field].elem).next().html(err.msg);
                 }
+            } else {
+                $(validateConf[field].elem).closest('div.control-group').addClass('success').removeClass('error');
             }
-            console.info('field: ' + field, res);
         });
+        return status;
     }
 
     function validateField(field) {

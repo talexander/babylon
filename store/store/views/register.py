@@ -3,6 +3,8 @@
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from store.forms.register import RegisterForm
+from django.contrib.auth.models import User
+
 
 import random
 
@@ -13,11 +15,16 @@ class RegisterView(FormView):
     success_url = '/register/success/'
 
     def form_valid(self, form):
+        user = User.objects.create_user(form.data['first_name'], form.data['email'], form.data['password'], first_name = form.data['first_name'], last_name=form.data['last_name']);
         return super(RegisterView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(RegisterView, self).get_context_data(**kwargs)
         context['rand'] = random.randint(0, 10000)
         return context
+
+
+    def post(self, request, *args, **kwargs):
+        return super(RegisterView, self).post(request, *args, **kwargs)
 
 

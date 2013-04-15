@@ -1,1 +1,1 @@
-__all__ = ["default", "login", "register"]
+__all__ = ["default", "login", "register", "register_success"]

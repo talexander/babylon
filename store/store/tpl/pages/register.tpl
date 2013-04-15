@@ -18,35 +18,35 @@
     {% csrf_token %}
     <div class="control-group">
         <div class="controls">
-            <input name="first_name" value="{{ form.first_name.value|default:""|escape }}" type="text" placeholder="Имя" class="input-large" />
+            <input name="first_name" value="{{ form.first_name.value|default:""|escape }}" type="text" placeholder="Имя" class="input-large" autocomplete="off" />
             <span class="help-inline"></span>
         </div>
     </div>
 
     <div class="control-group">
         <div class="controls">
-            <input name="last_name" value="{{ form.last_name.value|default:""|escape }}" type="text" placeholder="Фамилия" class="input-large" />
+            <input name="last_name" value="{{ form.last_name.value|default:""|escape }}" type="text" placeholder="Фамилия" class="input-large" autocomplete="off" />
             <span class="help-inline"></span>
         </div>
     </div>
 
     <div class="control-group">
         <div class="controls">
-            <input name="email" type="text" value="{{ form.email.value|default:""|escape }}" placeholder="Email" class="input-large" />
+            <input name="email" type="text" value="{{ form.email.value|default:""|escape }}" placeholder="Email" class="input-large" autocomplete="off" />
             <span class="help-inline"></span>
         </div>
     </div>
     
     <div class="control-group">
         <div class="controls">
-            <input name="password" type="password" value="{{ form.password.value|default:""|escape }}" placeholder="Пароль" class="input-large" />
+            <input name="password" type="password" value="{{ form.password.value|default:""|escape }}" placeholder="Пароль" class="input-large" autocomplete="off" />
             <span class="help-inline"></span>
         </div>
     </div>
 
     <div class="control-group">
         <div class="controls">
-            <input name="password_confirm" type="password" value="{{ form.password_confirm.value|default:""|escape }}"  placeholder="Подтверждение пароля" class="input-large" />
+            <input name="password_confirm" type="password" value="{{ form.password_confirm.value|default:""|escape }}"  placeholder="Подтверждение пароля" class="input-large" autocomplete="off" />
             <span class="help-inline"></span>
         </div>
     </div>

@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from store.views.index import IndexView 
 from store.views.login import LoginView
 from store.views.register import RegisterView
+from store.views.register_success import RegisterSuccessView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -9,9 +10,10 @@ from store.views.register import RegisterView
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', IndexView.as_view()),
-     url(r'^login/?$', LoginView.as_view()),
-     url(r'^register/?$', RegisterView.as_view()),
+    url(r'^$', IndexView.as_view()),
+    url(r'^login/?$', LoginView.as_view()),
+    url(r'^register/?$', RegisterView.as_view()),
+    url(r'^register/success/?$', RegisterSuccessView.as_view()),
 
     # url(r'^store/', include('store.foo.urls')),
 

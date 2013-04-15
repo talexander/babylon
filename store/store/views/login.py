@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+from django.contrib.auth.models import User
+from store.forms.login import LoginForm
 
-class LoginView(TemplateView):
-     template_name = "login.tpl"
-
+class LoginView(FormView):
+    template_name = "login.tpl"
+    form_class = LoginForm

@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from store.forms.register import RegisterForm
 from django.contrib.auth.models import User
-
+from django.shortcuts import redirect
 
 import random
 
@@ -26,5 +26,12 @@ class RegisterView(FormView):
 
     def post(self, request, *args, **kwargs):
         return super(RegisterView, self).post(request, *args, **kwargs)
+
+
+    def dispatch(self, request, *args, **kwargs):
+        # если на руках авторизованный пользователь, то уводим пользователя отсюда
+        if request.user.is_authenticated():
+            redirect('/')
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
 

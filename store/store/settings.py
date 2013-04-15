@@ -16,7 +16,7 @@ DATABASES = {
         'NAME': 'store',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'mysqlpsw',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
@@ -55,6 +55,8 @@ USE_L10N = True
 USE_TZ = True
 
 APP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '') 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"

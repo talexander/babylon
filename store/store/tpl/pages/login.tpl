@@ -2,7 +2,9 @@
 
 {% block content %}
     {% if forms.errors %}
-        <p>Неверное имя пользователя или пароль.</p>
+        <div class="alert alert-error">
+            Неверное имя пользователя или пароль.
+        </div>
     {% endif %}
 
     <form method="post" action="/login/" >

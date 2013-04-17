@@ -73,3 +73,5 @@ CREATE TABLE user (
 	salt char(4) NOT NULL,
 	flags bigint unsigned not null default 0
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE measure ADD COLUMN descr varchar(100) NOT NULL;

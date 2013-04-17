@@ -1,6 +1,7 @@
 # -*- coding: latin-1 -*-
 
 from django.db import models
+from django.contrib.admin import ModelAdmin
 
 # Create your models here.
 
@@ -10,13 +11,19 @@ class Store(models.Model):
     class Meta:
         db_table = 'store'
 
+class AdminStore(ModelAdmin):
+    pass
 
 class Measure(models.Model):
     alias = models.CharField(max_length = 40)
+    descr = models.CharField(max_length = 100)
     name = models.CharField(max_length = 100)
-    
+
     class Meta:
         db_table = 'measure'
+
+class AdminMeasure(ModelAdmin):
+    pass
 
 
 class PropertyGroup(models.Model):
@@ -26,6 +33,9 @@ class PropertyGroup(models.Model):
 
     class Meta:
         db_table = 'property_group'
+
+class AdminPropertyGroup(ModelAdmin):
+    pass
 
 
 class Property(models.Model):
@@ -38,6 +48,9 @@ class Property(models.Model):
     class Meta:
         db_table = 'property'
 
+class AdminProperty(ModelAdmin):
+    pass
+
 class GoodCategory(models.Model):
     name = models.CharField(max_length = 255)
     flags = models.BigIntegerField(default = 0)
@@ -45,6 +58,8 @@ class GoodCategory(models.Model):
     class Meta:
         db_table = 'good_category'
 
+class AdminGoodCategory(ModelAdmin):
+    pass
 
 class Good(models.Model):
     alias = models.CharField(max_length = 40)
@@ -52,6 +67,10 @@ class Good(models.Model):
     good_category = models.ForeignKey('GoodCategory', db_column = 'good_category')
     descr = models.TextField()
     flags = models.BigIntegerField(default = 0)
-    
+
     class Meta:
         db_table = 'good'
+
+class AdminGood(ModelAdmin):
+    pass
+

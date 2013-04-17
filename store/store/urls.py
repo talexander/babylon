@@ -3,6 +3,7 @@ from store.views.index import IndexView
 from store.views.login import LoginView
 from store.views.register import RegisterView
 from store.views.register_success import RegisterSuccessView
+from store.views.logout import LogoutView
 
 from django.contrib import admin
 admin.autodiscover()
@@ -11,6 +12,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', IndexView.as_view()),
     url(r'^login/?$', LoginView.as_view()),
+    url(r'^logout/?$', LogoutView.as_view()),
     url(r'^register/?$', RegisterView.as_view()),
     url(r'^register/success/?$', RegisterSuccessView.as_view()),
 

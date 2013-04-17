@@ -23,7 +23,7 @@
     <!-- add js here! -->
     {% endblock %}
 
-    <title>{{page.title|default:"3 Слона"}}</title>
+    <title>{{page.title|default:"Bodhi"}}</title>
 </head>
 
     <body>
@@ -32,6 +32,13 @@
                 <a href="/login/">Login</a>
                 <a href="/register/">Register</a>
             </div-->
+            <div style="text-align: right;">
+                {% if view.request.user.is_authenticated %}
+                    {{view.request.user.email }} <a href="/logout/">Выйти</a>
+                {% else %}
+                    <a href="/login/">Войти</a>
+                {% endif %}
+            </div>
         </div>
         <div id="main_container">
          {% block content %}Empty container!{% endblock %}

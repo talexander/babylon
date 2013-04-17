@@ -60,6 +60,8 @@ APP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '')
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
+AUTHENTICATION_BACKENDS = ('store.auth_backend.CustomBackend','django.contrib.auth.backends.ModelBackend',)
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = APP_DIR + '/media/'

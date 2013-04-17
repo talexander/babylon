@@ -1,7 +1,7 @@
 {% extends 'layouts/common.tpl' %}
 
 {% block content %}
-    {% if forms.errors %}
+    {% if form.errors or login_error  %}
         <div class="alert alert-error">
             Неверное имя пользователя или пароль.
         </div>
@@ -12,13 +12,13 @@
         <legend>Авторизация</legend>
         <div class="control-group">
             <div class="controls">
-                <input type="text" name="email" placeholder="Email" value="{{ data.email|default:'' }}" autocomplete="off" />
+                <input type="text" name="email" placeholder="Email" value="{{ form.email.value|default:'' }}" autocomplete="off" />
             </div>
         </div>
 
         <div class="control-group">
             <div class="controls">
-                <input type="password" name="password" placeholder="Пароль" value="{{ data.password|default:'' }}" autocomplete="off" />
+                <input type="password" name="password" placeholder="Пароль" value="{{ form.password.value|default:'' }}" autocomplete="off" />
             </div>
         </div>
 

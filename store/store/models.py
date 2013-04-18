@@ -23,7 +23,11 @@ class Measure(models.Model):
         db_table = 'measure'
 
 class AdminMeasure(ModelAdmin):
-    pass
+    list_display = ('display_name', 'alias')
+    def display_name(self, obj):
+        return "%s (%s)" % (obj.descr, obj.name)
+    display_name.short_description = 'Name'
+
 
 
 class PropertyGroup(models.Model):

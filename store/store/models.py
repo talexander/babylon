@@ -2,6 +2,20 @@
 
 from django.db import models
 from django.contrib.admin import ModelAdmin
+from django import forms
+
+class BitMaskField(models.Field):
+    def __init__(self, masks, *args, **kwargs):
+        defaults = {'choices': masks}
+        defaults.update(kwargs)
+        self.masks = masks
+        super(BitMaskField, self).__init__(*args, **defaults)
+
+    def formfield(self, **kwargs):
+        defaults = {'widget': forms.CheckboxSelectMultiple}
+        defaults.update(kwargs)
+        return super(BitMaskField, self).formfield(**defaults)
+
 
 class Store(models.Model):
     name = models.CharField(max_length = 255)
@@ -36,10 +50,10 @@ class AdminMeasure(ModelAdmin):
 
 
 class PropertyGroup(models.Model):
+    FLAGS = [(u'0', u'--'), (u'1', u'Bit 1'), (u'2', u'Bit 2')]
     alias = models.CharField(max_length = 40)
     name = models.CharField(max_length = 255)
-    flags = models.BigIntegerField(default = 0)
-
+    flags = BitMaskField(masks = FLAGS)
     def __unicode__(self):
         return u'%s' % self.name
 

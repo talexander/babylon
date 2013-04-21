@@ -75,3 +75,16 @@ CREATE TABLE user (
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 ALTER TABLE measure ADD COLUMN descr varchar(100) NOT NULL;
+
+ALTER TABLE good_property ADD COLUMN good int not null;
+
+CREATE TABLE `good_image` (
+   `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+   `good` integer NOT NULL,
+   `img` varchar(255) NOT NULL,
+   `width` varchar(7),
+   `height` varchar(7),
+   `kind` integer unsigned NOT NULL,
+   `flags` bigint unsigned NOT NULL DEFAULT 0
+)
+;

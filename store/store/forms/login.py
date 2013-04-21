@@ -10,4 +10,6 @@ class LoginForm(forms.Form):
     def get_success_url(self):
         return '/'
 
-
+class CheckBoxForm(forms.Form):
+    CHOICES = ((0, 'qwe'), (1, 'rty'), (2, 'asd'))
+    checkbox = forms.TypedChoiceField(choices = CHOICES, widget = forms.CheckboxSelectMultiple)

@@ -9,6 +9,10 @@ from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.utils.text import capfirst
 from django.core import validators, exceptions
+from django.utils.translation import ugettext_lazy as _
+from imagekit.models import ImageSpecField
+from imagekit.processors import  ResizeToFill, Adjust
+from imagekit.admin import AdminThumbnail
 
 def to_long(val):
     try:
@@ -137,7 +141,7 @@ class AdminStore(ModelAdmin):
     pass
 
 class Measure(models.Model):
-    alias = models.CharField(max_length = 40)
+    alias = models.SlugField(max_length = 40)
     descr = models.CharField(max_length = 100)
     name = models.CharField(max_length = 100)
 
@@ -158,7 +162,7 @@ class AdminMeasure(ModelAdmin):
 
 class PropertyGroup(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.CharField(max_length = 40)
+    alias = models.SlugField(max_length = 40)
     name = models.CharField(max_length = 255)
     flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
     def __unicode__(self):
@@ -173,7 +177,7 @@ class AdminPropertyGroup(ModelAdmin):
 
 class Property(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.CharField(max_length = 40)
+    alias = models.SlugField(max_length = 40)
     name = models.CharField(max_length = 255)
     measure = models.ForeignKey('Measure', db_column= 'measure', blank = True, null = True)
     property_group = models.ForeignKey('PropertyGroup', db_column = 'property_group')
@@ -190,6 +194,7 @@ class AdminProperty(ModelAdmin):
 
 class GoodCategory(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
+    alias = models.SlugField(max_length = 40)
     name = models.CharField(max_length = 255)
     flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
 
@@ -200,11 +205,11 @@ class GoodCategory(models.Model):
         db_table = 'good_category'
 
 class AdminGoodCategory(ModelAdmin):
-    pass
+    prepopulated_fields = {"alias": ("name",)}
 
 class Good(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.CharField(max_length = 40)
+    alias = models.SlugField(max_length = 40)
     name = models.CharField(max_length = 255)
     good_category = models.ForeignKey('GoodCategory', db_column = 'good_category')
     descr = models.TextField()
@@ -215,6 +220,7 @@ class Good(models.Model):
 
     class Meta:
         db_table = 'good'
+        verbose_name = _(u'Товар')
 
 class GoodProperty(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
@@ -237,6 +243,7 @@ class GoodImage(models.Model):
     img = models.ImageField(upload_to ='goods/', max_length = 255, width_field = 'width', height_field = 'height')
     width = models.CharField(max_length=7, blank = True, null = True)
     height = models.CharField(max_length=7, blank = True, null = True)
+    thumb1 = ImageSpecField([ResizeToFill(100, 100), ], image_field='img', format='JPEG', options={'quality': 90})
     kind = models.IntegerField(blank = True, default = 0, null = False, choices = KINDS)
     flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
 
@@ -256,3 +263,4 @@ class AdminGoodImageInline(StackedInline):
 
 class AdminGood(ModelAdmin):
     inlines = [AdminGoodImageInline, AdminGoodPropertyInline,] 
+    prepopulated_fields = {"alias": ("name",)}

@@ -138,6 +138,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'store',
+    'south',
+    'imagekit',
 )
 
 # A sample logging configuration. The only tangible logging

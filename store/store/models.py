@@ -136,6 +136,8 @@ class Store(models.Model):
 
     class Meta:
         db_table = 'store'
+        verbose_name = _(u'Магазин')
+        verbose_name_plural = _(u'Магазины')
 
 class AdminStore(ModelAdmin):
     pass
@@ -150,6 +152,8 @@ class Measure(models.Model):
 
     class Meta:
         db_table = 'measure'
+        verbose_name = _(u'Единица измерения')
+        verbose_name_plural = _(u'Единицы измерения')
 
 class AdminMeasure(ModelAdmin):
     list_display = ('display_name', 'alias')
@@ -170,6 +174,8 @@ class PropertyGroup(models.Model):
 
     class Meta:
         db_table = 'property_group'
+        verbose_name = _(u'Группа свойств')
+        verbose_name_plural = _(u'Группы свойств')
 
 class AdminPropertyGroup(ModelAdmin):
     list_display = ('name', 'alias')
@@ -188,6 +194,8 @@ class Property(models.Model):
 
     class Meta:
         db_table = 'property'
+        verbose_name = _(u'Свойство')
+        verbose_name_plural = _(u'Свойства')
 
 class AdminProperty(ModelAdmin):
     list_display = ('name', 'alias', 'measure', 'property_group')
@@ -203,6 +211,8 @@ class GoodCategory(models.Model):
 
     class Meta:
         db_table = 'good_category'
+        verbose_name = _(u'Категория товара')
+        verbose_name_plural = _(u'Категории товаров')
 
 class AdminGoodCategory(ModelAdmin):
     prepopulated_fields = {"alias": ("name",)}
@@ -221,6 +231,7 @@ class Good(models.Model):
     class Meta:
         db_table = 'good'
         verbose_name = _(u'Товар')
+        verbose_name_plural = _(u'Товары')
 
 class GoodProperty(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
@@ -234,6 +245,8 @@ class GoodProperty(models.Model):
 
     class Meta:
         db_table = 'good_property'
+        verbose_name = _(u'Характеристика товара')
+        verbose_name_plural = _(u'Характеристики товаров')
 
 class GoodImage(models.Model):
     KIND_DEFAULT = 1
@@ -249,17 +262,22 @@ class GoodImage(models.Model):
 
     class Meta:
         db_table = 'good_image'
-
+        verbose_name = _(u'Картинка товара')
+        verbose_name_plural = _(u'Картинки товаров')
 
 class AdminGoodProperty(ModelAdmin):
     pass
 
 class AdminGoodPropertyInline(StackedInline):
     model = GoodProperty
+    extra = 1
+    can_delete = True
 
 class AdminGoodImageInline(StackedInline):
     model = GoodImage
     exclude = ('width', 'height')
+    extra = 1
+    can_delete = True
 
 class AdminGood(ModelAdmin):
     inlines = [AdminGoodImageInline, AdminGoodPropertyInline,] 

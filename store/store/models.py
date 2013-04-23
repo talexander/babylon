@@ -174,8 +174,8 @@ class PropertyGroup(models.Model):
 
     class Meta:
         db_table = 'property_group'
-        verbose_name = _(u'Группа свойств')
-        verbose_name_plural = _(u'Группы свойств')
+        verbose_name = _(u'Группа характеристик')
+        verbose_name_plural = _(u'Группы характеристик')
 
 class AdminPropertyGroup(ModelAdmin):
     list_display = ('name', 'alias')
@@ -194,8 +194,8 @@ class Property(models.Model):
 
     class Meta:
         db_table = 'property'
-        verbose_name = _(u'Свойство')
-        verbose_name_plural = _(u'Свойства')
+        verbose_name = _(u'Характеристика')
+        verbose_name_plural = _(u'Характеристики')
 
 class AdminProperty(ModelAdmin):
     list_display = ('name', 'alias', 'measure', 'property_group')

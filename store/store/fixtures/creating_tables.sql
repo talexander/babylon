@@ -91,3 +91,5 @@ CREATE TABLE `good_image` (
 
 ALTER TABLE good_category ADD COLUMN alias VARCHAR(50) NOT NULL DEFAULT '';
 ALTER TABLE good_image ADD COLUMN thumb1 varchar(255) NOT NULL, ADD COLUMN thumb2 varchar(255) NOT NULL;
+
+ALTER TABLE good_image DROP COLUMN thumb1, DROP COLUMN thumb2;

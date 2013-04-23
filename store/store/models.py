@@ -257,6 +257,7 @@ class GoodImage(models.Model):
     width = models.CharField(max_length=7, blank = True, null = True)
     height = models.CharField(max_length=7, blank = True, null = True)
     thumb1 = ImageSpecField([ResizeToFill(100, 100), ], image_field='img', format='JPEG', options={'quality': 90})
+    thumb2 = ImageSpecField([ResizeToFill(300, 300), ], image_field='img', format='JPEG', options={'quality': 90})
     kind = models.IntegerField(blank = True, default = 0, null = False, choices = KINDS)
     flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
 
@@ -270,14 +271,17 @@ class AdminGoodProperty(ModelAdmin):
 
 class AdminGoodPropertyInline(StackedInline):
     model = GoodProperty
-    extra = 1
+    extra = 0
     can_delete = True
 
 class AdminGoodImageInline(StackedInline):
+    readonly_fields = ('admin_thumb1', 'admin_thumb2')
     model = GoodImage
     exclude = ('width', 'height')
-    extra = 1
+    extra = 0 
     can_delete = True
+    admin_thumb1 = AdminThumbnail(image_field='thumb1')
+    admin_thumb2 = AdminThumbnail(image_field='thumb2')
 
 class AdminGood(ModelAdmin):
     inlines = [AdminGoodImageInline, AdminGoodPropertyInline,] 

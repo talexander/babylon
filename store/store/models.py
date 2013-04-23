@@ -257,8 +257,8 @@ class GoodImage(models.Model):
     img = models.ImageField(_(u'Картинка'), upload_to ='goods/', max_length = 255, width_field = 'width', height_field = 'height')
     width = models.CharField(max_length=7, blank = True, null = True)
     height = models.CharField(max_length=7, blank = True, null = True)
-    thumb1 = ImageSpecField([ResizeToFill(100, 100), ], image_field='img', format='JPEG', options={'quality': 90})
-    thumb2 = ImageSpecField([ResizeToFill(300, 300), ], image_field='img', format='JPEG', options={'quality': 90})
+    thumb1 = ImageSpecField([ResizeToFill(100, 100), ], image_field='img',  options={'quality': 90})
+    thumb2 = ImageSpecField([ResizeToFill(300, 300), ], image_field='img', options={'quality': 90})
     kind = models.IntegerField(_(u'Тип'), blank = True, default = 0, null = False, choices = KINDS)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 

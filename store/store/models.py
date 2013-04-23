@@ -78,11 +78,11 @@ class CustomTypedMultipleChoiceField(forms.TypedMultipleChoiceField):
         return list2long(value)
 
 class BitMaskField(models.Field):
-    def __init__(self, masks, *args, **kwargs):
+    def __init__(self, verbose_name=None, masks= [], *args, **kwargs):
         defaults = {'choices': masks }
         defaults.update(kwargs)
         self.masks = masks
-        super(BitMaskField, self).__init__(*args, **defaults)
+        super(BitMaskField, self).__init__(verbose_name, *args, **defaults)
 
     def formfield(self, form_class=forms.CharField, **kwargs):
         """
@@ -114,7 +114,7 @@ class BitMaskField(models.Field):
             for k in list(kwargs):
                 if k not in ('empty_value', 'choices', 'required',
                              'label', 'initial', 'help_text',
-                             'error_messages', 'show_hidden_initial'):
+                             'error_messages', 'show_hidden_initial', 'verbose_name'):
                     del kwargs[k]
         defaults.update(kwargs)
         return form_class(**defaults)
@@ -129,7 +129,7 @@ class BitMaskField(models.Field):
             raise exceptions.ValidationError(self.error_messages['blank'])
 
 class Store(models.Model):
-    name = models.CharField(max_length = 255)
+    name = models.CharField(_(u'Наименование'), max_length = 255)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -143,9 +143,9 @@ class AdminStore(ModelAdmin):
     pass
 
 class Measure(models.Model):
-    alias = models.SlugField(max_length = 40)
-    descr = models.CharField(max_length = 100)
-    name = models.CharField(max_length = 100)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    descr = models.CharField(_(u'Описание'), max_length = 100)
+    name = models.CharField(_(u'Наименование'), max_length = 100)
 
     def __unicode__(self):
         return u'%s (%s)' % (self.descr, self.name)
@@ -166,9 +166,9 @@ class AdminMeasure(ModelAdmin):
 
 class PropertyGroup(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(max_length = 40)
-    name = models.CharField(max_length = 255)
-    flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    name = models.CharField(_(u'Наименование'), max_length = 255)
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
     def __unicode__(self):
         return u'%s' % self.name
 
@@ -183,11 +183,11 @@ class AdminPropertyGroup(ModelAdmin):
 
 class Property(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(max_length = 40)
-    name = models.CharField(max_length = 255)
-    measure = models.ForeignKey('Measure', db_column= 'measure', blank = True, null = True)
-    property_group = models.ForeignKey('PropertyGroup', db_column = 'property_group')
-    flags = BitMaskField(masks = FLAGS, blank = True, default = 0) 
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    name = models.CharField(_(u'Наименование'), max_length = 255)
+    measure = models.ForeignKey('Measure', db_column= 'measure', blank = True, null = True, verbose_name = _(u'Единица измерения'))
+    property_group = models.ForeignKey('PropertyGroup', db_column = 'property_group', verbose_name = _(u'Группа характеристик'))
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0) 
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -202,9 +202,9 @@ class AdminProperty(ModelAdmin):
 
 class GoodCategory(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(max_length = 40)
-    name = models.CharField(max_length = 255)
-    flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    name = models.CharField(_(u'Наименование'), max_length = 255)
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -219,11 +219,12 @@ class AdminGoodCategory(ModelAdmin):
 
 class Good(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(max_length = 40)
-    name = models.CharField(max_length = 255)
-    good_category = models.ForeignKey('GoodCategory', db_column = 'good_category')
-    descr = models.TextField()
-    flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    name = models.CharField(_(u'Наименование'), max_length = 255)
+    good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
+    price = models.DecimalField(_(u'Цена'), max_digits = 15, decimal_places = 2) 
+    descr = models.TextField(_(u'Описание'))
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -235,10 +236,10 @@ class Good(models.Model):
 
 class GoodProperty(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    good = models.ForeignKey('Good', db_column = 'good') 
-    prop = models.ForeignKey('Property', db_column = 'property')
-    val = models.CharField(max_length = 255, db_column = 'val')
-    flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
+    good = models.ForeignKey('Good', db_column = 'good', verbose_name = _(u'Товар'))
+    prop = models.ForeignKey('Property', db_column = 'property', verbose_name = _(u'Характеристика'))
+    val = models.CharField(_(u'Значение'), max_length = 255, db_column = 'val')
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     def __unicode__(self):
         return u'%s=%s' % (self.prop.name, self.val)
@@ -253,13 +254,13 @@ class GoodImage(models.Model):
     KINDS = ((KIND_DEFAULT, u'Default'),)
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     good = models.ForeignKey('Good', db_column = 'good')
-    img = models.ImageField(upload_to ='goods/', max_length = 255, width_field = 'width', height_field = 'height')
+    img = models.ImageField(_(u'Картинка'), upload_to ='goods/', max_length = 255, width_field = 'width', height_field = 'height')
     width = models.CharField(max_length=7, blank = True, null = True)
     height = models.CharField(max_length=7, blank = True, null = True)
     thumb1 = ImageSpecField([ResizeToFill(100, 100), ], image_field='img', format='JPEG', options={'quality': 90})
     thumb2 = ImageSpecField([ResizeToFill(300, 300), ], image_field='img', format='JPEG', options={'quality': 90})
-    kind = models.IntegerField(blank = True, default = 0, null = False, choices = KINDS)
-    flags = BitMaskField(masks = FLAGS, blank = True, default = 0)
+    kind = models.IntegerField(_(u'Тип'), blank = True, default = 0, null = False, choices = KINDS)
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     class Meta:
         db_table = 'good_image'

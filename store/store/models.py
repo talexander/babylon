@@ -143,9 +143,9 @@ class AdminStore(ModelAdmin):
     pass
 
 class Measure(models.Model):
+    name = models.CharField(_(u'Наименование'), max_length = 100)
     alias = models.SlugField(_(u'Алиас'), max_length = 40)
     descr = models.CharField(_(u'Описание'), max_length = 100)
-    name = models.CharField(_(u'Наименование'), max_length = 100)
 
     def __unicode__(self):
         return u'%s (%s)' % (self.descr, self.name)
@@ -166,8 +166,8 @@ class AdminMeasure(ModelAdmin):
 
 class PropertyGroup(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     name = models.CharField(_(u'Наименование'), max_length = 255)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
     def __unicode__(self):
         return u'%s' % self.name
@@ -190,7 +190,10 @@ class Property(models.Model):
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0) 
 
     def __unicode__(self):
-        return u'%s' % self.name
+        if self.measure is None:
+            return u'%s' % self.name
+        else:
+            return u'%s (%s)' % (self.name, self.measure.name)
 
     class Meta:
         db_table = 'property'
@@ -198,6 +201,7 @@ class Property(models.Model):
         verbose_name_plural = _(u'Характеристики')
 
 class AdminProperty(ModelAdmin):
+    fields = ('name', 'alias', 'measure', 'property_group', 'flags')
     list_display = ('name', 'alias', 'measure', 'property_group')
 
 class GoodCategory(models.Model):
@@ -285,5 +289,8 @@ class AdminGoodImageInline(StackedInline):
     admin_thumb2 = AdminThumbnail(image_field='thumb2')
 
 class AdminGood(ModelAdmin):
-    inlines = [AdminGoodImageInline, AdminGoodPropertyInline,] 
+    inlines = [AdminGoodImageInline, AdminGoodPropertyInline,]
+    fields = ('name', 'alias', 'good_category', 'price', 'descr', 'flags')
+    list_display = ('id', 'name', 'good_category', 'price')
     prepopulated_fields = {"alias": ("name",)}
+

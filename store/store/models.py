@@ -231,6 +231,10 @@ class Good(models.Model):
     descr = models.TextField(_(u'Описание'))
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
+    def pics(self):
+        return GoodImage.objects.filter(good = self.id).order
+
+
     def __unicode__(self):
         return u'%s' % self.name
 

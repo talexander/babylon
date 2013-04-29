@@ -7,3 +7,4 @@ class GoodsDetailView(DetailView):
     model = Good
     context_object_name = 'goods'
     template_name = 'goods_detail.tpl'
+    pk_url_kwarg = 'id'

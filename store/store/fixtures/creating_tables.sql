@@ -95,3 +95,7 @@ ALTER TABLE good_image ADD COLUMN thumb1 varchar(255) NOT NULL, ADD COLUMN thumb
 ALTER TABLE good_image DROP COLUMN thumb1, DROP COLUMN thumb2;
 
 ALTER TABLE good ADD COLUMN price DECIMAL(15, 2) NOT NULL DEFAULT 0;
+
+ALTER TABLE good_category ADD COLUMN alias varchar(40) NOT NULL;
+
+ALTER TABLE good_category ADD COLUMN priority smallint UNSIGNED NOT NULL DEFAULT 0;

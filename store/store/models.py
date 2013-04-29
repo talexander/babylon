@@ -208,6 +208,7 @@ class GoodCategory(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     alias = models.SlugField(_(u'Алиас'), max_length = 40)
     name = models.CharField(_(u'Наименование'), max_length = 255)
+    priority = models.PositiveSmallIntegerField(u'Приоритет', blank = True, default = 0)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     def __unicode__(self):
@@ -253,6 +254,7 @@ class GoodProperty(models.Model):
         verbose_name = _(u'Характеристика товара')
         verbose_name_plural = _(u'Характеристики товаров')
 
+
 class GoodImage(models.Model):
     KIND_DEFAULT = 1
     KINDS = ((KIND_DEFAULT, u'Default'),)
@@ -261,10 +263,10 @@ class GoodImage(models.Model):
     img = models.ImageField(_(u'Картинка'), upload_to ='goods/', max_length = 255, width_field = 'width', height_field = 'height')
     width = models.CharField(max_length=7, blank = True, null = True)
     height = models.CharField(max_length=7, blank = True, null = True)
-    thumb1 = ImageSpecField([ResizeToFill(100, 100), ], image_field='img',  options={'quality': 90})
+    thumb1 = ImageSpecField([ResizeToFill(100, 100),], image_field='img',  options={'quality': 90})
     thumb2 = ImageSpecField([ResizeToFill(300, 300), ], image_field='img', options={'quality': 90})
-    kind = models.IntegerField(_(u'Тип'), blank = True, default = 0, null = False, choices = KINDS)
-    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
+    kind = models.IntegerField(_(u'Тип'), blank = True, default = 1, null = False, choices = KINDS)
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = -1)
 
     class Meta:
         db_table = 'good_image'
@@ -283,7 +285,7 @@ class AdminGoodImageInline(StackedInline):
     readonly_fields = ('admin_thumb1', 'admin_thumb2')
     model = GoodImage
     exclude = ('width', 'height')
-    extra = 0 
+    extra = 0
     can_delete = True
     admin_thumb1 = AdminThumbnail(image_field='thumb1')
     admin_thumb2 = AdminThumbnail(image_field='thumb2')

@@ -95,3 +95,53 @@ ALTER TABLE good_image ADD COLUMN thumb1 varchar(255) NOT NULL, ADD COLUMN thumb
 ALTER TABLE good_image DROP COLUMN thumb1, DROP COLUMN thumb2;
 
 ALTER TABLE good ADD COLUMN price DECIMAL(15, 2) NOT NULL DEFAULT 0;
+
+ALTER TABLE good ADD COLUMN vendor INT NOT NULL DEFAULT 0;
+CREATE TABLE vendor (
+  id integer AUTO_INCREMENT PRIMARY KEY,
+  name varchar(100),
+  alias varchar(50),
+  flags bigint not null default 0
+);
+
+CREATE TABLE good_consist (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  alias varchar(50) NOT NULL,
+  name varchar(100) NOT NULL
+);
+
+ALTER TABLE good ADD COLUMN consists INT NOT NULL DEFAULT 0;
+
+CREATE TABLE colour (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name varchar(100) NOT NULL,
+  code varchar(20) NOT NULL
+);
+
+CREATE TABLE good_colour (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  good int not null,
+  colour int not null
+);
+
+ALTER TABLE good_colour ADD COLUMN vendor_colour varchar(150);
+ALTER TABLE good_colour ADD COLUMN img varchar(150);
+ALTER TABLE good_colour CHANGE colour unified_colour int;
+
+ALTER TABLE good_colour ADD COLUMN `width` varchar(7),
+   ADD COLUMN `height` varchar(7);
+
+CREATE TABLE cart (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  user INT,
+  session varchar(255),
+  product int not null,
+  product_code varchar(100),
+  amount INT NOT NULL
+);
+
+RENAME TABLE good_colour TO product_sku;
+ALTER TABLE product_sku ADD COLUMN left_amount INT NOT NULL DEFAULT 0;
+
+

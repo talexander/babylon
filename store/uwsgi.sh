@@ -1,5 +1,7 @@
 #!/bin/sh
 
+killall uwsgi
+
 export UWSGI_SOCKET=127.0.0.1:9090
 export UWSGI_MODULE=wsgi
 export UWSGI_MASTER=1

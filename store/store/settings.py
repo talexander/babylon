@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
 # Django settings for store project.
 import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+INTERNAL_IPS = (
+    '127.0.0.1',
+)
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -42,6 +46,7 @@ LANGUAGES = (
 )
 
 SITE_ID = 1
+SITE_NAME = u'«Улиткина пряжа»'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -113,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'store.urls'
@@ -171,15 +177,18 @@ LOGGING = {
     }
 }
 
-
-DEBUG_TOOLBAR_PANELS = (
-	'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-	'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-	'debug_toolbar.panels.headers.HeaderDebugPanel',
-	'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-	'debug_toolbar.panels.template.TemplateDebugPanel',
-	'debug_toolbar.panels.sql.SQLDebugPanel',
-	'debug_toolbar.panels.signals.SignalDebugPanel',
-	'debug_toolbar.panels.logger.LoggingPanel',
-)
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+]

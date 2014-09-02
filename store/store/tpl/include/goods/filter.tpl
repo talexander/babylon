@@ -24,7 +24,7 @@
             </select>
         </li>
         <li class="inline-block">
-            <label for="gf_vendor">Производитель:</label>
+            <label for="gf_vendor">Марка:</label>
             <select name="gf_vendor" id="gf_vendor[]" class="multiselect invisible" multiple="multiple">
                 <option value="">Любая</option>
                 {% for vendor in filter_data.vendor %}
@@ -38,8 +38,8 @@
             <input name="gf_length_to" type="text" placeholder="До" value="{{ gf.length_to }}">
             <span class="n">м.</span>
         </li>
-        <li id="btn-apply-filter" class="b inline-block">
-            <input name="gf_apply" type="submit" class="btn btn-default btn-sm" value="Применить" />
+        <li id="btn-apply-filter" class="inline-block">
+            <input name="gf_apply" type="submit" class="cta1-btn" value="Показать" />
         </li>
     </ul>
 </form>

@@ -116,7 +116,7 @@ html body{
 }
 
 body {
-    font-family: "helvetica neue",arial,sans-serif;
+    font-family: helvetica, arial, sans-serif !important;
 }
 
 #search-box {
@@ -284,9 +284,10 @@ body {
 }
 
 #goods-filter {
-    padding:15px 15px 0;
+    padding: 15px 15px 0;
     margin-bottom: 20px;
     height: 55px;
+	width: 100%;
     background-color:#fff;
     box-shadow:0 1px 3px rgba(34,25,25,0.4);
     -moz-box-shadow:0 1px 2px rgba(34,25,25,0.4);
@@ -296,13 +297,25 @@ body {
     font-size: 14px;
 }
 
-#goods-filter li {
-    margin-right: 30px;
+#goods-filter ul{
+	padding: 0;
+	text-align: center;
+}
+#goods-filter .dropdown-menu{
+	text-align: left;
+}
+
+#goods-filter>ul>li {
+    margin-right: 20px;
     vertical-align: baseline;
 }
 
+#goods .dropdown-toggle {
+	width: 85px;
+}
+
 #price-filter input, #length-filter input{
-    width: 60px;
+    width: 45px;
     border-radius: 3px;
     border: 1px solid #d6d3ce;
     background-color: #f2f2f2;
@@ -317,6 +330,11 @@ body {
 
 #price-filter input, #price-filter select {
     margin: 0 2px;
+}
+
+#goods-filter #btn-apply-filter  input{
+	width: 110px;
+	height: 30px;
 }
 
 #main-popup {
@@ -486,3 +504,56 @@ body {
     font-size: 21px;
     font-weight: bold;
 }
+
+
+/******************* responsive style *********************/
+
+@media screen and (max-width:480px) {
+    /* Селекторы */
+}
+@media screen and (min-width:1110px) {
+	#goods-filter { 
+		margin-right: 10px;
+		font-size: .9em;
+		}
+}
+@media screen and (min-width:1185px) {
+	#goods-filter { margin-right: 20px; }
+}
+@media screen and (min-width:1190px) {
+	#goods-filter { margin-right: 30px; }
+}
+
+/******************* responsive style end *********************/
+
+
+
+/******************* contact page *********************/
+
+.contact-wrap {
+	background-color: #fff;
+	position: absolute;
+	top: -20px;
+	left: -20px;
+	width: 110%;
+}
+
+	.contact-wrap .coordinate {
+		padding: 20px;
+	}
+	
+	.contact-wrap h2 {
+		padding: 20px;
+	}
+	
+	.contact-wrap .map {
+		background: url(/i/common/map-tmp.jpg) no-repeat scroll -10px 0 rgba(0, 0, 0, 0);
+		height: 500px;
+		margin-top: 1%;
+	}
+
+/******************* contact page end *********************/
+
+
+
+

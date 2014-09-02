@@ -16,6 +16,10 @@ $(function(){
         buttonWidth: false
     });
 
+    $('.cart-product-list .product').each(function(i, e) {
+        recalcSum(e);
+    });
+
     store = new Store();
     store.init();
 });
@@ -175,8 +179,17 @@ function add2cart(elem) {
 }
 
 function removeFromCart(elem) {
+    var str = $(elem).parents('tr').attr("id"), p = {};
+    if(str.indexOf('_') > 0) {
+        p['id'] = str.slice(1, str.indexOf('_'))
+        p['sku'] = str.slice(str.indexOf('_') + 1);
+    } else {
+        p['id'] = str.slice(1)
+    }
+    store.cart.remove(new Product(p));
     $(elem).parents('tr').remove();
     recalcTotal();
+
     if ($('.cart-product-list .product').length == 0) {
         $('#empty-cart').removeClass('hide');
     }
@@ -198,7 +211,7 @@ function onSkuChange(elem) {
 }
 
 function recalcSum(elem) {
-    var product = $(elem).parents('.product');
+    var product = $(elem).hasClass('product') ? $(elem) : $(elem).parents('.product');
     var price = parseFloat(product.find('.price').html());
     var count = parseFloat(product.find('.count input').val());
     var sum = price*count > 0 ? (price*count + ' руб.'): '--';

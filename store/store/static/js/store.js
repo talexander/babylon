@@ -20,6 +20,7 @@ Cart.prototype.add = function(product, amount) {
 
 Cart.prototype.remove = function(product) {
     var pId = product.getId();
+    console.log(pId, this.items);
     if(pId in this.items) {
         delete this.items[pId];
     }

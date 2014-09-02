@@ -8,6 +8,7 @@ from store.views.logout import LogoutView
 from store.views.goods_filter import GoodsFilterView
 from store.views.cart import CartView
 from store.views.simple import ContactsView, FavoritesView
+from store.views.order import OrderView
 
 from django.contrib import admin
 admin.autodiscover()
@@ -21,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^cart/?$', CartView.as_view()),
     url(r'^product/([a-z,A-Z,0-9,\-,\+]+)/([a-z,A-Z,0-9,\-]+)/?$', IndexView.as_view(), name = 'product_url'), # @TODO: substitute correct dispatcher
     url(r'^product/(?P<category>[a-z,A-Z,0-9,\-,\+]+)/?$', GoodsFilterView.as_view(), name = 'product_category_url'), # @TODO: substitute correct dispatcher
+    url(r'^order/new/?$', OrderView.as_view()),
 
 
     url(r'^login/?$', LoginView.as_view()),

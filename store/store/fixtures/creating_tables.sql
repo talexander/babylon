@@ -145,3 +145,8 @@ RENAME TABLE good_colour TO product_sku;
 ALTER TABLE product_sku ADD COLUMN left_amount INT NOT NULL DEFAULT 0;
 
 
+ALTER TABLE good MODIFY consist int unsigned DEFAULT 0;
+ALTER TABLE good MODIFY vendor int unsigned DEFAULT 0;
+ALTER TABLE good MODIFY descr TEXT DEFAULT '';
+ALTER TABLE good_consist ADD COLUMN good_category int unsigned not null; // обновить всем составам это поле (проставить категорию пряжи)
+ALTER TABLE good ADD COLUMN left_amount int unsigned  DEFAULT 0;

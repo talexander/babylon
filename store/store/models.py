@@ -150,9 +150,9 @@ class AdminStore(ModelAdmin):
     pass
 
 class Measure(models.Model):
+    name = models.CharField(_(u'Наименование'), max_length = 100)
     alias = models.SlugField(_(u'Алиас'), max_length = 40)
     descr = models.CharField(_(u'Описание'), max_length = 100)
-    name = models.CharField(_(u'Наименование'), max_length = 100)
 
     def __unicode__(self):
         return u'%s (%s)' % (self.descr, self.name)
@@ -174,8 +174,8 @@ class AdminMeasure(ModelAdmin):
 
 class PropertyGroup(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     name = models.CharField(_(u'Наименование'), max_length = 255)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
     def __unicode__(self):
         return u'%s' % self.name
@@ -192,8 +192,8 @@ class AdminPropertyGroup(ModelAdmin):
 class Property(models.Model):
     PROP_ALIAS_LENGTH = 'length_m'
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     name = models.CharField(_(u'Наименование'), max_length = 255)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     measure = models.ForeignKey('Measure', db_column= 'measure', blank = True, null = True, verbose_name = _(u'Единица измерения'))
     property_group = models.ForeignKey('PropertyGroup', db_column = 'property_group', verbose_name = _(u'Группа характеристик'))
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
@@ -258,21 +258,22 @@ class ProductSKU(models.Model):
 
     class Meta:
         db_table = 'product_sku'
-        verbose_name = _(u'Цвет товара')
-        verbose_name_plural = _(u'Цвета товаров')
+        verbose_name = _(u'Артикул')
+        verbose_name_plural = _(u'Артикулы')
 
 
 class Good(models.Model):
     FLAG_IN_STOCK = 0x004
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled'), (FLAG_IN_STOCK, u'In stock'),]
     #  (0x008, u'Под заказ'), (0x010, u'New'), (0x020, u'Акция')
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     name = models.CharField(_(u'Наименование'), max_length = 255)
+    alias = models.SlugField(_(u'Алиас'), max_length = 40)
     good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
-    vendor = models.ForeignKey('Vendor', db_column = 'vendor', verbose_name = _(u'Производитель'), blank = True, default = 0)
-    consist = models.ForeignKey('GoodConsist', db_column = 'consist', verbose_name = _(u'Состав'), blank = True, default = 0)
+    vendor = models.ForeignKey('Vendor', db_column = 'vendor', verbose_name = _(u'Производитель'), blank = True, default = 0, null=True)
+    consist = models.ForeignKey('GoodConsist', db_column = 'consist', verbose_name = _(u'Состав'), blank = True, default=0, null=True)
+    left_amount = models.PositiveIntegerField(_(u'Остаток'), blank=True, default=0, null=True)
     price = models.DecimalField(_(u'Цена'), max_digits = 15, decimal_places = 2)
-    descr = models.TextField(_(u'Описание'))
+    descr = models.TextField(_(u'Описание'), default='', null=True, blank=True)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
 
@@ -414,14 +415,14 @@ class AdminGoodImageInline(StackedInline):
     admin_thumb3 = AdminThumbnail(image_field='thumb3')
 
 class AdminGood(ModelAdmin):
-    inlines = [AdminGoodImageInline, AdminProductSKUInline, AdminGoodPropertyInline,]
+    inlines = [AdminProductSKUInline, AdminGoodImageInline,  AdminGoodPropertyInline,]
     prepopulated_fields = {"alias": ("name",)}
 
 
 class Vendor(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
-    alias = models.SlugField(_(u'Алиас'), max_length = 50)
     name = models.CharField(_(u'Наименование'), max_length = 100)
+    alias = models.SlugField(_(u'Алиас'), max_length = 50)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     def __unicode__(self):
@@ -436,8 +437,9 @@ class AdminVendor(ModelAdmin):
     prepopulated_fields = {"alias": ("name",)}
 
 class GoodConsist(models.Model):
-    alias = models.SlugField(_(u'Алиас'), max_length = 50)
     name = models.CharField(_(u'Наименование'), max_length = 100)
+    alias = models.SlugField(_(u'Алиас'), max_length = 50)
+    good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
 
     def __unicode__(self):
         return u'%s' % self.name

@@ -4,7 +4,9 @@
         <a class="cta1-btn cart-btn">В корзину</a>
         <a class="favorite-btn glyphicon glyphicon-heart" href="javascript:void(0)"></a>
         <a class="thumb-photo" href="{% url 'product_url' item.good_category.alias item.alias %}">
-            <img src="{{ item.thumb.url }}" alt="img"/>
+            {% if item.thumb %}
+                <img src="{{ item.thumb.url }}" alt="img"/>
+            {% endif %}
         </a>
         <div class="goods-descr text-left">
             <h3 class="clearfix">
@@ -28,7 +30,7 @@
                         <ul class="product-preview-list">
                             <li class="inline-block thumb-arrow pull-left" style="list-style: none;"><span class="glyphicon glyphicon-chevron-left"></span></li>
                             {% for colour in item.get_colours %}
-                                {% if colour.thumb1 %}
+                                {% if colour.thumb2 and colour.thumb3 %}
                                     <li class="product-preview inline-block">
                                         <a href="javascript:void(0);" onclick="onThumbClick(this);" data-thumb2="{{ colour.thumb2.url }}"><img src="{{ colour.thumb3.url }}" alt="111"></a>
                                     </li>

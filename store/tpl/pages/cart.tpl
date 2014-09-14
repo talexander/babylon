@@ -26,7 +26,7 @@
         {% for item in cart %}
                 <tr class="product" id="p{{ item.product.id }}{% if item.sku %}_{{ item.sku.id }}{% endif %}">
                     <td>
-                        {% if item.sku and item.sku.img %}
+                        {% if item.sku and item.sku.thumb3 %}
                             <img src="{{ item.sku.thumb3.url }}" alt="img"/>
                         {% else %}
                             <img src="{{ item.product.thumb3.url }}" alt="img"/>

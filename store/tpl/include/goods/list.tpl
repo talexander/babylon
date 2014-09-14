@@ -6,6 +6,8 @@
         <a class="thumb-photo" href="{% url 'product_url' item.good_category.alias item.alias %}">
             {% if item.thumb %}
                 <img src="{{ item.thumb.url }}" alt="img"/>
+            {% else %}
+                <span>нет изображения для товара ID={{ item.id }}</span>
             {% endif %}
         </a>
         <div class="goods-descr text-left">

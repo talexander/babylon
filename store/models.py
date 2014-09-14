@@ -21,6 +21,9 @@ from django.contrib.sessions.models import Session
 
 from django.utils.encoding import smart_str, force_str
 
+import logging
+logger = logging.getLogger(__name__)
+
 def to_long(val):
     try:
         return long(float(val))
@@ -308,29 +311,30 @@ class Good(models.Model):
         img_item = GoodImage.objects.filter(good = self.id).order_by(id).first()
         return img_item
 
-    def thumb(self):
+    def thumbnail(self, type):
         try:
-            item = ProductSKU.objects.get(good = self.id, img__isnull = False).order_by('id')
-        except Exception, e:
+            item = ProductSKU.objects.filter(good = self.id, img__isnull = False).order_by('id')[0]
+        except IndexError, e:
             try:
                 item = GoodImage.objects.get(good = self.id, kind = GoodImage.KIND_DEFAULT)
-            except Exception, e:
+            except exceptions.ObjectDoesNotExist, e:
                 item = self.img()
-        return item.thumb1
+                if (not item):
+                    logger.debug('item: %d, images not found' % self.id)
+                    return False
+
+
+        r = getattr(item, type)
+        return r
+
+    def thumb(self):
+        return self.thumbnail('thumb1')
 
     def thumb2(self):
-        try:
-            item = GoodImage.objects.get(good = self.id, kind = GoodImage.KIND_DEFAULT)
-        except Exception, e:
-            item = self.img()
-        return item.thumb2
+        return self.thumbnail('thumb2')
 
     def thumb3(self):
-        try:
-            item = GoodImage.objects.get(good = self.id, kind = GoodImage.KIND_DEFAULT)
-        except Exception, e:
-            item = self.img()
-        return item.thumb3
+        return self.thumbnail('thumb3')
 
     def in_stock(self):
         return (self.flags & Good.FLAG_IN_STOCK > 0)

@@ -16,7 +16,7 @@ $(function(){
         buttonWidth: false
     });
 
-    $('.cart-product-list .product').each(function(i, e) {
+    $('.cart-product-list:not(.nocalc) .product').each(function(i, e) {
         recalcSum(e);
     });
 

@@ -34,7 +34,7 @@
                             {% for sku in item.get_sku %}
                                 {% if sku.thumb2 and sku.thumb3 %}
                                     <li class="product-preview inline-block">
-                                        <a href="javascript:void(0);" onclick="onThumbClick(this);" data-thumb2="{{ sku.thumb2.url }}"><img src="{{ sku.thumb3.url }}" alt="111"></a>
+                                        <a href="javascript:void(0);" id="good-thumb{{sku.id}}" class="good-thumb-item" onclick="onThumbClick(this);" data-thumb2="{{ sku.thumb2.url }}"><img src="{{ sku.thumb3.url }}" alt="111"></a>
                                     </li>
                                 {% endif %}
                             {% endfor %}

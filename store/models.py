@@ -313,7 +313,7 @@ class Good(models.Model):
 
     def thumbnail(self, type):
         try:
-            item = ProductSKU.objects.filter(good = self.id, img__isnull = False).order_by('id')[0]
+            item = self.get_sku().filter(img__isnull = False).order_by('id')[0]
         except IndexError, e:
             try:
                 item = GoodImage.objects.get(good = self.id, kind = GoodImage.KIND_DEFAULT)
@@ -340,7 +340,7 @@ class Good(models.Model):
         return (self.flags & Good.FLAG_IN_STOCK > 0)
 
     def get_sku(self):
-        return ProductSKU.objects.filter(good = self.id)
+        return ProductSKU.objects.filter(good = self.id).exclude(vendor_colour__isnull=True).exclude(vendor_colour__exact='')
 
     def sku(self, id):
         try:

@@ -207,7 +207,15 @@ function onThumbClick(elem) {
 }
 
 function onSkuChange(elem) {
-    console.info('on sku change', elem);
+    var v = 'good-thumb' + $(elem).val(), cont = $(elem).parents('.product-detail');
+    item = $('#' + v);
+    if (!item || !item.length) {
+        var item = $('.good-thumb-item:first', cont);
+    }
+    var e = $('.big-thumb', cont);
+    if($(item).data('thumb2') && e.attr('src') != $(elem).data('thumb2')) {
+        e.attr('src', $(item).data('thumb2'));
+    }
 }
 
 function recalcSum(elem) {

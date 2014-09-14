@@ -28,13 +28,13 @@
                     <div>
                         <img src="{{ item.thumb2.url }}" alt="img" class="big-thumb" />
                     </div>
-                    {% if item.get_colours %}
+                    {% if item.get_sku %}
                         <ul class="product-preview-list">
                             <li class="inline-block thumb-arrow pull-left" style="list-style: none;"><span class="glyphicon glyphicon-chevron-left"></span></li>
-                            {% for colour in item.get_colours %}
-                                {% if colour.thumb2 and colour.thumb3 %}
+                            {% for sku in item.get_sku %}
+                                {% if sku.thumb2 and sku.thumb3 %}
                                     <li class="product-preview inline-block">
-                                        <a href="javascript:void(0);" onclick="onThumbClick(this);" data-thumb2="{{ colour.thumb2.url }}"><img src="{{ colour.thumb3.url }}" alt="111"></a>
+                                        <a href="javascript:void(0);" onclick="onThumbClick(this);" data-thumb2="{{ sku.thumb2.url }}"><img src="{{ sku.thumb3.url }}" alt="111"></a>
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -51,8 +51,8 @@
                     <p>
                         <select name="sku-{{ item.id }}" class="sku" data-required="1" onchange="onSkuChange(this)">
                             <option value="">--</option>
-                            {% for colour in item.get_colours %}
-                                <option value="{{ colour.id }}"  {% if colour.id in gf.colours %} selected {% endif %}>{{ colour.vendor_colour }}</option>
+                            {% for sku in item.get_sku %}
+                                <option value="{{ sku.id }}"  {% if sku.id in gf.colours %} selected {% endif %}>{{ sku.vendor_colour }}</option>
                             {% endfor %}
                         </select>
                     </p>

@@ -339,7 +339,7 @@ class Good(models.Model):
     def in_stock(self):
         return (self.flags & Good.FLAG_IN_STOCK > 0)
 
-    def get_colours(self):
+    def get_sku(self):
         return ProductSKU.objects.filter(good = self.id)
 
     def sku(self, id):
@@ -421,6 +421,8 @@ class AdminGoodImageInline(StackedInline):
 class AdminGood(ModelAdmin):
     inlines = [AdminProductSKUInline, AdminGoodImageInline,  AdminGoodPropertyInline,]
     prepopulated_fields = {"alias": ("name",)}
+    list_filter = ('vendor',)
+    list_display = ('id', 'name', 'alias', 'vendor')
 
 
 class Vendor(models.Model):

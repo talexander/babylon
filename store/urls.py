@@ -9,6 +9,8 @@ from store.views.goods_filter import GoodsFilterView
 from store.views.cart import CartView
 from store.views.simple import ContactsView, FavoritesView
 from store.views.order import OrderView
+# from store.views.chained_select import ChainedSelectChoices
+from store.views.simple import EulaView
 
 from django.contrib import admin
 admin.autodiscover()
@@ -23,12 +25,15 @@ urlpatterns = patterns('',
     url(r'^product/([a-z,A-Z,0-9,\-,\+]+)/([a-z,A-Z,0-9,\-]+)/?$', IndexView.as_view(), name = 'product_url'), # @TODO: substitute correct dispatcher
     url(r'^product/(?P<category>[a-z,A-Z,0-9,\-,\+]+)/?$', GoodsFilterView.as_view(), name = 'product_category_url'), # @TODO: substitute correct dispatcher
     url(r'^order/new/?$', OrderView.as_view()),
+    url(r'^eula/?$', EulaView.as_view()),
 
 
     url(r'^login/?$', LoginView.as_view()),
     url(r'^logout/?$', LogoutView.as_view()),
     url(r'^register/?$', RegisterView.as_view()),
     url(r'^register/success/?$', RegisterSuccessView.as_view()),
+
+    # url(r'^chainedselectchoices$', ChainedSelectChoices.as_view(), name = 'chained_select_choices'),
 
     # url(r'^store/', include('store.foo.urls')),
 

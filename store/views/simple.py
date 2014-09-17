@@ -6,3 +6,6 @@ class ContactsView(TemplateView):
 
 class FavoritesView(TemplateView):
     template_name = "favorites.tpl"
+
+class EulaView(TemplateView):
+    template_name = "eula.tpl"

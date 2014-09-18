@@ -468,6 +468,12 @@ body {
     line-height: 156px;
     font-size: 20px;
 	color: indianred;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .product-preview-list .thumb-arrow:hover {

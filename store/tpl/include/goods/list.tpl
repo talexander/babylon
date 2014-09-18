@@ -33,7 +33,7 @@
                             <li class="inline-block thumb-arrow pull-left" style="list-style: none;"><span class="glyphicon glyphicon-chevron-left"></span></li>
                             {% for sku in item.get_sku %}
                                 {% if sku.thumb2 and sku.thumb3 %}
-                                    <li class="product-preview inline-block">
+                                    <li class="product-preview inline-block {% if forloop.first %} active {% endif %}">
                                         <a href="javascript:void(0);" id="good-thumb{{sku.id}}" class="good-thumb-item" onclick="onThumbClick(this);" data-thumb2="{{ sku.thumb2.url }}"><img src="{{ sku.thumb3.url }}" alt="111"></a>
                                     </li>
                                 {% endif %}

@@ -453,9 +453,11 @@ body {
     padding: 10px 10px 10px 0;
 	opacity: .9;
 }
-.product-preview-list .product-preview:hover {
+
+.product-preview-list .product-preview:hover, .product-preview-list .active {
     opacity: 1;
 }
+
 #cart-elem .badge {
     margin-left: 5px;
     background-color: #fff;

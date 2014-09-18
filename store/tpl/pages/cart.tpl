@@ -2,14 +2,14 @@
 
 {% block content %}
 
-    <div class="page-content" style="background-color: #fff; width: 90%; margin: 0 auto;padding: 20px;">
+    <div class="page-content cart" style="background-color: #fff; width: 90%; margin: 0 auto;padding: 20px;">
         <ol class="breadcrumb" style="background-color: inherit;">
           <li class="active">Корзина</li>
         </ol>
 
             {% if cart|length > 4 %}
                 <div class="clear">
-                    <a class="btn btn-default pull-right" href="/order/new">Оформить заказ</a>
+                    <a class="cta1-btn pull-right" href="/order/new">Оформить заказ</a>
                 </div>
             {% endif %}
 
@@ -67,7 +67,7 @@
 
             {% if cart|length > 0 %}
                 <div class="clear">
-                    <a class="btn btn-default pull-right" href="/order/new">Оформить заказ</a>
+                    <a class="cta1-btn pull-right" href="/order/new">Оформить заказ</a>
                 </div>
             {% endif %}
     </div>

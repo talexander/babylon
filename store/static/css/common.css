@@ -337,6 +337,9 @@ body {
 	height: 30px;
 }
 
+
+/************************ product page **************************/
+
 #main-popup {
     margin: 28px auto 0;
     background-color: #fff;
@@ -388,6 +391,7 @@ body {
 
 #main-popup-content .good-photo {
     float: left;
+	text-align: center;
 }
 
 #main-popup-content .good-wrap-descr {
@@ -439,35 +443,47 @@ body {
     margin: 10px 0 0 0 !important;
     background-color: #f2f2f2;
     padding: 0 !important;
+	width: 420px;
+	height: 155px;
+	overflow: hidden;
+	position: relative;
 }
 .product-preview-list .product-preview {
     list-style: none;
-    padding: 10px 5px;
+    padding: 10px 10px 10px 0;
+	opacity: .9;
 }
 .product-preview-list .product-preview:hover {
-    background-color: #dfdfdf;
+    opacity: 1;
 }
 #cart-elem .badge {
     margin-left: 5px;
     background-color: #fff;
     color: #666;
 }
-.thumb-arrow {
-    line-height: 135px;
+
+.product-preview-list .thumb-arrow {
+    line-height: 156px;
     font-size: 20px;
-    padding: 2px;
+	color: indianred;
 }
 
-.thumb-arrow:hover {
-    color: #D1591E;
+.product-preview-list .thumb-arrow:hover {
+    color: firebrick;
     cursor: pointer;
+}
+
+.product-preview-list .pull-right{
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .cart-product-list td{
     padding: 10px;
 }
 .cart-product-list tr:hover {
-    background-color: #fce7de;
+    background-color: #f5f5dc;
 }
 .cart-product-list tr {
     border-bottom: 1px dashed #dfdfdf;
@@ -555,5 +571,53 @@ body {
 /******************* contact page end *********************/
 
 
+/********************* order page ***********************/
+
+.order.page-content .breadcrumb {
+	padding-left: 0;
+}
+
+.order.page-content .breadcrumb>.active {
+	color: #333;
+}
+
+.separate {
+	font-family: monospace;
+	color: #999;
+}
+
+.order.page-content .cta1-btn {
+	padding: 7px 25px;
+}
+
+.order.page-content dt {
+	float: left;
+	width: 160px;
+}
+
+.order.page-content dd {
+	margin-bottom: 15px;
+}
+
+.order.page-content .comment{
+	color: #999;
+}
+
+.order.page-content dl input, .order.page-content dl select, .order.page-content dl textarea {
+	width: 220px;
+}
+
+
+/******************* order page end *********************/
+
+
+/********************* cart page ***********************/
+
+.page-content.cart .cta1-btn {
+	padding: 7px 15px;
+	margin: 10px 0;
+}
+
+/********************* cart page end ***********************/
 
 

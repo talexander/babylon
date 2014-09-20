@@ -95,8 +95,19 @@ function showGoodsPopup(event) {
     var elem = $(this).parents('.goods-preview');
     var popup_elem = elem.find('.goods-popup-content');
     popup_elem.show();
-    showPopup(popup_elem.html(), function() {
-        $('.product-preview-list:visible').on('click', '.thumb-arrow', onArrowClick);
+    showPopup(popup_elem.html(), function(popup) {
+        $('.product-preview-list', popup).on('click', '.thumb-arrow.active', onArrowClick);
+        $('.product-preview-list', popup).css('position', 'relative');
+        var offset = $('.product-preview-list li:first', popup).outerWidth();
+        $('.product-preview-list .product-preview', popup).each(function(i, e) {
+            $(e).css({
+                position: 'absolute',
+                left: offset + 'px',
+                display: 'block'
+            });
+            offset += $(e).outerWidth();
+        });
+
     });
 }
 
@@ -120,7 +131,7 @@ function showPopup(html, clb) {
     $('#main-popup-content', popup).html(html);
     overlay.removeClass('hide');
     if(typeof clb != 'undefined') {
-        clb();
+        clb(popup);
     }
 }
 function hidePopup() {
@@ -129,12 +140,13 @@ function hidePopup() {
 };
 
 function onArrowClick(ev) {
+    console.info('t', this);
     var previews  = $(this).parents('.product-preview-list');
     if($('li.product-preview', previews).length <= 1) {
         return false;
     }
 
-    var curr = $('li.active', previews);
+    var curr = $('.product-preview.active', previews);
     if(!curr.length) {
         curr = $('li.product-preview:first', previews);
         if(!curr.length) {
@@ -143,19 +155,33 @@ function onArrowClick(ev) {
     }
 
 
-    if($(this).hasClass('pull-left')) {
+    var op = '-=';
+    if($(this).hasClass('ll')) {
         var next = curr.prev();
         if(!next || !next.hasClass('product-preview')) {
             next = $('li.product-preview:last', previews);
         }
+        op = '+=';
     } else {
         var next = curr.next();
         if(!next || !next.hasClass('product-preview')) {
             next = $('li.product-preview:first', previews);
         }
     }
+    var offset = $(curr).outerWidth();
+    $('li.product-preview', previews).animate({'left': op + offset}, 600);
     curr.removeClass('active');
     next.addClass('active');
+
+    $('li.thumb-arrow', previews).removeClass('active');
+    if(!next.is($('li.product-preview:first', previews))) {
+        $('li.thumb-arrow.ll', previews).addClass('active');
+    }
+
+    var cnt = 4;
+    if(!next.is($('li.product-preview', previews).slice(-cnt, -cnt + 1))) {
+        $('li.thumb-arrow.rr', previews).addClass('active');
+    }
 
     onThumbClick($('.good-thumb-item', next));
 }
@@ -239,21 +265,19 @@ function onThumbClick(elem) {
     var e = $(elem).parents('.product-detail').find('.big-thumb');
     if($(elem).data('thumb2') && e.src != $(elem).data('thumb2')) {
         e.attr('src', $(elem).data('thumb2'));
-        console.info('new scr', $(elem).data('thumb2'));
+        console.info('new scr', $(elem).data('thumb2'), 'elem', elem, 'cont', e);
     }
     return false;
 }
 
 function onSkuChange(elem) {
     var v = 'good-thumb' + $(elem).val(), cont = $(elem).parents('.product-detail');
-    item = $('#' + v);
+    // @TODO: неуникальный айди у артикула
+    item = $('#' + v, cont);
     if (!item || !item.length) {
         var item = $('.good-thumb-item:first', cont);
     }
-    var e = $('.big-thumb', cont);
-    if($(item).data('thumb2') && e.attr('src') != $(elem).data('thumb2')) {
-        e.attr('src', $(item).data('thumb2'));
-    }
+    onThumbClick(item);
 }
 
 function recalcSum(elem) {

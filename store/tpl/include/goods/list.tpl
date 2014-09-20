@@ -30,15 +30,17 @@
                     </div>
                     {% if item.get_sku %}
                         <ul class="product-preview-list">
-                            <li class="inline-block thumb-arrow pull-left" style="list-style: none;"><span class="glyphicon glyphicon-chevron-left"></span></li>
+                            <li class="thumb-arrow ll" style="list-style: none;"><span class="glyphicon glyphicon-chevron-left"></span></li>
                             {% for sku in item.get_sku %}
                                 {% if sku.thumb2 and sku.thumb3 %}
-                                    <li class="product-preview inline-block {% if forloop.first %} active {% endif %}">
+                                    <li class="product-preview {% if forloop.first %} active {% endif %}">
                                         <a href="javascript:void(0);" id="good-thumb{{sku.id}}" class="good-thumb-item" onclick="onThumbClick(this);" data-thumb2="{{ sku.thumb2.url }}"><img src="{{ sku.thumb3.url }}" alt="111"></a>
                                     </li>
                                 {% endif %}
                             {% endfor %}
-                            <li class="inline-block thumb-arrow pull-right" style="list-style: none;"><span class="glyphicon glyphicon-chevron-right"></span></li>
+
+                            <li class="inline-block thumb-arrow rr {% if item.get_sku|length > 4 %}active{% endif %}" style="list-style: none;"><span class="glyphicon glyphicon-chevron-right"></span></li>
+
                         </ul>
                     {% endif %}
                 </div>

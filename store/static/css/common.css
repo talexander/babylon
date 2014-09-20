@@ -452,6 +452,8 @@ body {
     list-style: none;
     padding: 10px 10px 10px 0;
 	opacity: .9;
+    position: absolute;
+    z-index: 10;
 }
 
 .product-preview-list .product-preview:hover, .product-preview-list .active {
@@ -464,6 +466,7 @@ body {
     color: #666;
 }
 
+
 .product-preview-list .thumb-arrow {
     line-height: 156px;
     font-size: 20px;
@@ -474,6 +477,21 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    position: absolute;
+    z-index: 100;
+    background-color: #f2f2f2;
+    padding: 0 8px;
+    opacity: 0.4;
+}
+.product-preview-list .active {
+    opacity: 1;
+}
+
+.product-preview-list .ll {
+    left: 0;
+}
+.product-preview-list .rr {
+    right: 0;
 }
 
 .product-preview-list .thumb-arrow:hover {

@@ -441,7 +441,6 @@ body {
 
 .product-preview-list {
     margin: 10px 0 0 0 !important;
-    background-color: #f2f2f2;
     padding: 0 !important;
 	width: 420px;
 	height: 155px;
@@ -451,11 +450,19 @@ body {
 .product-preview-list .product-preview {
     list-style: none;
     padding: 10px 10px 10px 0;
-	opacity: .9;
 }
 
-.product-preview-list .product-preview:hover, .product-preview-list .active {
-    opacity: 1;
+.product-preview-list .good-thumb-item{
+	border: 1px solid #fff;
+	display: inherit;
+}
+
+.product-preview-list .good-thumb-item:hover {
+	border: 1px solid tomato;
+}
+
+.product-preview-list .active .good-thumb-item{
+	border: 1px solid rosybrown;
 }
 
 #cart-elem .badge {

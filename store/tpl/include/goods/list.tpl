@@ -54,7 +54,7 @@
                         <select name="sku-{{ item.id }}" class="sku" data-required="1" onchange="onSkuChange(this)">
                             <option value="">--</option>
                             {% for sku in item.get_sku %}
-                                <option value="{{ sku.id }}"  {% if sku.id in gf.colours %} selected {% endif %}>{{ sku.vendor_colour }}</option>
+                                <option value="{{ sku.id }}"  {% if forloop.first %} selected {% endif %}">{{ sku.vendor_colour }}</option>
                             {% endfor %}
                         </select>
                     </p>

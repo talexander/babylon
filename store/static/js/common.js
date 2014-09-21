@@ -98,7 +98,7 @@ function showGoodsPopup(event) {
     showPopup(popup_elem.html(), function(popup) {
         $('.product-preview-list', popup).on('click', '.thumb-arrow.active', onArrowClick);
         $('.product-preview-list', popup).css('position', 'relative');
-        var offset = $('.product-preview-list li:first', popup).outerWidth(), cnt = 4, total = $('.product-preview-list .product-preview', popup).length;
+        var offset = $('.product-preview-list li:first', popup).outerWidth(), cnt = 4;
         $('.product-preview-list .product-preview', popup).each(function(i, e) {
             $(e).css({
                 position: 'absolute',
@@ -106,10 +106,7 @@ function showGoodsPopup(event) {
                 display: 'block'
             });
             if(i < cnt) {
-                $(e).addClass('moo-ll');
-            }
-            if(i >= total - cnt) {
-                $(e).addClass('moo-rr');
+                $(e).addClass('viewport');
             }
             offset += $(e).outerWidth();
         });
@@ -146,7 +143,6 @@ function hidePopup() {
 };
 
 function onArrowClick(ev) {
-    console.info('t', this);
     var previews  = $(this).parents('.product-preview-list');
     if($('li.product-preview', previews).length <= 1) {
         return false;
@@ -161,25 +157,12 @@ function onArrowClick(ev) {
     }
 
 
-    var op = '-=', animate = true;
-    if($(this).hasClass('ll')) {
-        var next = curr.prev();
-        if(!next || !next.hasClass('product-preview')) {
-            next = $('li.product-preview:last', previews);
-        }
-        op = '+=';
-        animate = animate && !curr.hasClass('moo-ll');
-    } else {
-        var next = curr.next();
-        if(!next || !next.hasClass('product-preview')) {
-            next = $('li.product-preview:first', previews);
-        }
-        animate = animate && !curr.hasClass('moo-rr');
-    }
-
-    if(animate) {
-        var offset = $(curr).outerWidth();
-        $('li.product-preview', previews).animate({'left': op + offset}, 600);
+    var next = $(this).hasClass('ll') ? curr.prev() :  next = curr.next();
+    if(!next.hasClass('viewport')) {
+        var offset = $(this).hasClass('ll') ? $(curr).outerWidth() : -$(curr).outerWidth();
+        $('li.product-preview', previews).animate({'left': '+=' +  offset}, 600);
+        $(next).addClass('viewport');
+        $('li.product-preview.viewport:' + ($(this).hasClass('ll') ? 'last' : 'first'), previews).removeClass('viewport');
     }
 
     curr.removeClass('active');
@@ -278,7 +261,6 @@ function onThumbClick(elem) {
     $(elem).parents('.product-preview ').addClass('active');
     if($(elem).data('thumb2') && e.src != $(elem).data('thumb2')) {
         e.attr('src', $(elem).data('thumb2'));
-        console.info('new scr', $(elem).data('thumb2'), 'elem', elem, 'cont', e);
     }
     return false;
 }

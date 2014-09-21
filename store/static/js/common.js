@@ -168,13 +168,13 @@ function onArrowClick(ev) {
             next = $('li.product-preview:last', previews);
         }
         op = '+=';
-        animate = animate && curr.hasClass('moo-ll');
+        animate = animate && !curr.hasClass('moo-ll');
     } else {
         var next = curr.next();
         if(!next || !next.hasClass('product-preview')) {
             next = $('li.product-preview:first', previews);
         }
-        animate = animate && curr.hasClass('moo-rr');
+        animate = animate && !curr.hasClass('moo-rr');
     }
 
     if(animate) {

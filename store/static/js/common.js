@@ -160,7 +160,7 @@ function onArrowClick(ev, params) {
     var next = $(this).hasClass('ll') ? curr.prev() :  next = curr.next(), dur = typeof params != 'undefined' ? params.duration : 600;
     if(!next.hasClass('viewport')) {
         var offset = $(this).hasClass('ll') ? $(curr).outerWidth() : -$(curr).outerWidth();
-        $('li.product-preview', previews).animate({'left': '+=' +  offset}, Math.max(dur, 100));
+        $('li.product-preview', previews).animate({'left': '+=' +  offset}, Math.max(dur, 100), 'linear');
         $(next).addClass('viewport');
         $('li.product-preview.viewport:' + ($(this).hasClass('ll') ? 'last' : 'first'), previews).removeClass('viewport');
     }
@@ -176,7 +176,7 @@ function onArrowClick(ev, params) {
         $('li.thumb-arrow.rr', previews).addClass('active');
     }
 
-    onThumbClick($('.good-thumb-item', next));
+    $('.good-thumb-item', next).trigger('click');
 }
 
 function getCookie(name) {
@@ -262,6 +262,13 @@ function onThumbClick(elem) {
     if($(elem).data('thumb2') && e.src != $(elem).data('thumb2')) {
         e.attr('src', $(elem).data('thumb2'));
     }
+    if($(elem).data('sku')) {
+        var sku = $(elem).parents('.product-detail').find('.sku');
+        if(sku.length && sku.val() != $(elem).data('sku')) {
+            sku.val($(elem).data('sku'));
+        }
+    }
+
     return false;
 }
 
@@ -292,7 +299,7 @@ function onSkuChange(elem) {
         }
     }
 
-    onThumbClick(item);
+    $(item).trigger('click');
 }
 
 function recalcSum(elem) {

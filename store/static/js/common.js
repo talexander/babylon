@@ -142,7 +142,7 @@ function hidePopup() {
     $('#m-overlay').addClass('hide');
 };
 
-function onArrowClick(ev) {
+function onArrowClick(ev, params) {
     var previews  = $(this).parents('.product-preview-list');
     if($('li.product-preview', previews).length <= 1) {
         return false;
@@ -157,10 +157,10 @@ function onArrowClick(ev) {
     }
 
 
-    var next = $(this).hasClass('ll') ? curr.prev() :  next = curr.next();
+    var next = $(this).hasClass('ll') ? curr.prev() :  next = curr.next(), dur = typeof params != 'undefined' ? params.duration : 600;
     if(!next.hasClass('viewport')) {
         var offset = $(this).hasClass('ll') ? $(curr).outerWidth() : -$(curr).outerWidth();
-        $('li.product-preview', previews).animate({'left': '+=' +  offset}, 600);
+        $('li.product-preview', previews).animate({'left': '+=' +  offset}, Math.max(dur, 100));
         $(next).addClass('viewport');
         $('li.product-preview.viewport:' + ($(this).hasClass('ll') ? 'last' : 'first'), previews).removeClass('viewport');
     }
@@ -272,6 +272,26 @@ function onSkuChange(elem) {
     if (!item || !item.length) {
         var item = $('.good-thumb-item:first', cont);
     }
+
+    var pp = $(item).parents('.product-preview');
+    if(!pp.hasClass('viewport')) {
+        var activeInd = 0, newActiveInd = 0;
+        $('.product-preview', cont).each(function(i, e) {
+            if($(e).is(pp)) {
+                newActiveInd = i;
+            }
+            if($(e).hasClass('active')) {
+                activeInd = i;
+            }
+
+        });
+        var steps = newActiveInd - activeInd;
+        var tElem = $(steps < 0 ? '.thumb-arrow.ll' : '.thumb-arrow.rr', cont);
+        for(var i = 0; i <= Math.abs(steps); i++) {
+            $(tElem).trigger('click', {'duration': Math.ceil(800/Math.abs(steps))});
+        }
+    }
+
     onThumbClick(item);
 }
 

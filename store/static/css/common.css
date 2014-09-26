@@ -354,7 +354,7 @@ body {
     right: 0;
     bottom: 0;
     z-index: 10000;
-    background-color: rgba(224, 224, 226, 0.85);
+    background-color: rgba(47, 47, 47, 0.85);
 }
 
 #popup-close-btn {
@@ -485,9 +485,11 @@ body {
     user-select: none;
     position: absolute;
     z-index: 100;
-    padding: 0 8px;
+    background-color: #fff;
+    padding: 0 4px;
     opacity: 0.4;
 }
+
 .product-preview-list .active {
     opacity: 1;
 }

@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^product/([a-z,A-Z,0-9,\-,\+]+)/([a-z,A-Z,0-9,\-]+)/?$', IndexView.as_view(), name = 'product_url'), # @TODO: substitute correct dispatcher
     url(r'^product/(?P<category>[a-z,A-Z,0-9,\-,\+]+)/?$', GoodsFilterView.as_view(), name = 'product_category_url'), # @TODO: substitute correct dispatcher
     url(r'^order/new/?$', OrderView.as_view()),
+    url(r'^order/success/?$', OrderView.as_view(**{'success': 1, 'template_name': 'order_success.tpl' })),
     url(r'^eula/?$', EulaView.as_view()),
 
 

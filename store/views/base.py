@@ -8,6 +8,8 @@ class BaseView:
     def common_vars(self):
         return {
             'page': {'title': settings.SITE_NAME},
-            'rand': random.randint(1, 1000000)
+            'rand': random.randint(1, 1000000),
+            'STATIC_URL': settings.STATIC_URL
+
         }
 

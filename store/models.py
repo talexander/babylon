@@ -1,20 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.contrib.admin import ModelAdmin, TabularInline, StackedInline
-from django import forms
-from itertools import chain
-from django.utils.html import format_html
-from django.utils.encoding import force_text
-from django.utils.safestring import mark_safe
-from django.utils.text import capfirst
-from django.core import validators, exceptions
+from django.core import exceptions
 from django.utils.translation import ugettext_lazy as _
 from imagekit.models import ImageSpecField
 from pilkit.processors import  ResizeToFill, Adjust, SmartResize, ResizeToCover, ResizeToFit, ResizeCanvas
-from imagekit.admin import AdminThumbnail
-from bitfield import BitField
-from bitfield.forms import BitFieldCheckboxSelectMultiple
+from store.bitmask import BitMaskField
+
 
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
@@ -23,120 +15,6 @@ from django.utils.encoding import smart_str, force_str
 
 import logging
 logger = logging.getLogger(__name__)
-
-def to_long(val):
-    try:
-        return long(float(val))
-    except Exception, e:
-        return 0
-
-def list2long(l):
-    if type(l) != list:
-        raise ValueError('Value is not list')
-    result = 0
-    for v in l:
-        result |= to_long(v)
-    return result
-
-class BitMaskMultiCheckbox(forms.SelectMultiple):
-    def render(self, name, value, attrs=None, choices=()):
-        if value is None: value = []
-        has_id = attrs and 'id' in attrs
-        final_attrs = self.build_attrs(attrs, name=name)
-        output = ['<ul>']
-        long_val = to_long(value)
-
-        for i, (option_value, option_label) in enumerate(chain(self.choices, choices)):
-            # If an ID attribute was given, add a numeric index as a suffix,
-            # so that the checkboxes don't all have the same ID attribute.
-            if to_long(option_value) == 0:
-                continue
-            if has_id:
-                final_attrs = dict(final_attrs, id='%s_%s' % (attrs['id'], i))
-                label_for = format_html(' for="{0}"', final_attrs['id'])
-            else:
-                label_for = ''
-
-            cb = forms.CheckboxInput(final_attrs, check_test=lambda value: bool(to_long(value) & long_val))
-            option_value = force_text(option_value)
-            rendered_cb = cb.render(name, option_value)
-            option_label = force_text(option_label)
-            output.append(format_html('<li><label{0}>{1} {2}</label></li>',
-                                      label_for, rendered_cb, option_label))
-        output.append('</ul>')
-        return mark_safe('\n'.join(output))
-
-    def _has_changed(self, initial, data):
-        if data is None:
-            data_value = ''
-        else:
-            data_value = data
-        if initial is None:
-            initial_value = ''
-        else:
-            initial_value = initial
-        if force_text(initial_value)  != force_text(data_value):
-            return True
-        return False
-
-
-class CustomTypedMultipleChoiceField(forms.TypedMultipleChoiceField):
-    def clean(self, value):
-        value = self.to_python(value)
-        self.validate(value)
-        self.run_validators(value)
-        return list2long(value)
-
-class BitMaskField(models.Field):
-    def __init__(self, verbose_name=None, masks= [], *args, **kwargs):
-        defaults = {'choices': masks }
-        defaults.update(kwargs)
-        self.masks = masks
-        super(BitMaskField, self).__init__(verbose_name, *args, **defaults)
-
-    def formfield(self, form_class=forms.CharField, **kwargs):
-        """
-        Returns a django.forms.Field instance for this database Field.
-        """
-        def co(val):
-            return to_long(val)
-
-        defaults = {'required': not self.blank,
-                    'label': capfirst(self.verbose_name),
-                    'help_text': self.help_text,
-                    'widget': BitMaskMultiCheckbox,
-                    'coerce': co
-                    }
-        if self.has_default():
-            if callable(self.default):
-                defaults['initial'] = self.default
-                defaults['show_hidden_initial'] = True
-            else:
-                defaults['initial'] = self.get_default()
-        if self.choices:
-            # Fields with choices get special treatment.
-            include_blank = (self.blank or
-                             not (self.has_default() or 'initial' in kwargs))
-            defaults['choices'] = self.get_choices(include_blank=include_blank)
-            if self.null:
-                defaults['empty_value'] = None
-            form_class = CustomTypedMultipleChoiceField
-            for k in list(kwargs):
-                if k not in ('empty_value', 'choices', 'required',
-                             'label', 'initial', 'help_text',
-                             'error_messages', 'show_hidden_initial', 'verbose_name'):
-                    del kwargs[k]
-        defaults.update(kwargs)
-        return form_class(**defaults)
-
-    def validate(self, value, model_instance):
-        if not self.editable:
-            # Skip validation for non-editable fields.
-            return
-        if value is None and not self.null:
-            raise exceptions.ValidationError(self.error_messages['null']);
-        if not self.blank and value  in validators.EMPTY_VALUES:
-            raise exceptions.ValidationError(self.error_messages['blank'])
 
 class Store(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 255)
@@ -148,9 +26,6 @@ class Store(models.Model):
         db_table = 'store'
         verbose_name = _(u'Магазин')
         verbose_name_plural = _(u'Магазины')
-
-class AdminStore(ModelAdmin):
-    pass
 
 class Measure(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 100)
@@ -165,15 +40,6 @@ class Measure(models.Model):
         verbose_name = _(u'Единица измерения')
         verbose_name_plural = _(u'Единицы измерения')
 
-class AdminMeasure(ModelAdmin):
-    list_display = ('display_name', 'alias')
-    prepopulated_fields = {"alias": ("name",)}
-
-    def display_name(self, obj):
-        return "%s (%s)" % (obj.descr, obj.name)
-    display_name.short_description = 'Name'
-
-
 
 class PropertyGroup(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
@@ -187,10 +53,6 @@ class PropertyGroup(models.Model):
         db_table = 'property_group'
         verbose_name = _(u'Группа характеристик')
         verbose_name_plural = _(u'Группы характеристик')
-
-class AdminPropertyGroup(ModelAdmin):
-    list_display = ('name', 'alias')
-    prepopulated_fields = {"alias": ("name",)}
 
 class Property(models.Model):
     PROP_ALIAS_LENGTH = 'length_m'
@@ -209,9 +71,6 @@ class Property(models.Model):
         verbose_name = _(u'Характеристика')
         verbose_name_plural = _(u'Характеристики')
 
-class AdminProperty(ModelAdmin):
-    prepopulated_fields = {"alias": ("name",)}
-    list_display = ('name', 'alias', 'measure', 'property_group')
 
 class GoodCategory(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
@@ -227,10 +86,6 @@ class GoodCategory(models.Model):
         verbose_name = _(u'Категория товара')
         verbose_name_plural = _(u'Категории товаров')
 
-class AdminGoodCategory(ModelAdmin):
-    prepopulated_fields = {"alias": ("name",)}
-    list_display = ('name', 'alias')
-
 class Colour(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 255)
     code = models.CharField(_(u'Код'), max_length = 20, unique = True)
@@ -242,8 +97,6 @@ class Colour(models.Model):
         verbose_name = _(u'Цвет товара')
         verbose_name_plural = _(u'Цвета товаров')
 
-class AdminColour(ModelAdmin):
-    pass
 
 
 class ProductSKU(models.Model):
@@ -263,6 +116,9 @@ class ProductSKU(models.Model):
         db_table = 'product_sku'
         verbose_name = _(u'Артикул')
         verbose_name_plural = _(u'Артикулы')
+
+    def __unicode__(self):
+        return u'ID: %d, артикул: %s' % (self.id, self.vendor_colour)
 
 
 class Good(models.Model):
@@ -388,41 +244,6 @@ class GoodImage(models.Model):
         verbose_name = _(u'Картинка товара')
         verbose_name_plural = _(u'Картинки товаров')
 
-class AdminGoodProperty(ModelAdmin):
-    pass
-
-class AdminGoodPropertyInline(StackedInline):
-    model = GoodProperty
-    extra = 0
-    can_delete = True
-
-class AdminProductSKUInline(StackedInline):
-    model = ProductSKU
-    readonly_fields = ('admin_thumb1', 'admin_thumb2', 'admin_thumb3')
-    exclude = ('width', 'height')
-    extra = 0
-    can_delete = True
-    admin_thumb1 = AdminThumbnail(image_field='thumb1')
-    admin_thumb2 = AdminThumbnail(image_field='thumb2')
-    admin_thumb3 = AdminThumbnail(image_field='thumb3')
-
-
-
-class AdminGoodImageInline(StackedInline):
-    readonly_fields = ('admin_thumb1', 'admin_thumb2', 'admin_thumb3')
-    model = GoodImage
-    exclude = ('width', 'height')
-    extra = 0 
-    can_delete = True
-    admin_thumb1 = AdminThumbnail(image_field='thumb1')
-    admin_thumb2 = AdminThumbnail(image_field='thumb2')
-    admin_thumb3 = AdminThumbnail(image_field='thumb3')
-
-class AdminGood(ModelAdmin):
-    inlines = [AdminProductSKUInline, AdminGoodImageInline,  AdminGoodPropertyInline,]
-    prepopulated_fields = {"alias": ("name",)}
-    list_filter = ('vendor',)
-    list_display = ('id', 'name', 'alias', 'vendor')
 
 
 class Vendor(models.Model):
@@ -439,8 +260,6 @@ class Vendor(models.Model):
         verbose_name = _(u'Производитель')
         verbose_name_plural = _(u'Производители')
 
-class AdminVendor(ModelAdmin):
-    prepopulated_fields = {"alias": ("name",)}
 
 class GoodConsist(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 100)
@@ -455,8 +274,6 @@ class GoodConsist(models.Model):
         verbose_name = _(u'Состав товара')
         verbose_name_plural = _(u'Состав товара')
 
-class AdminGoodConsist(ModelAdmin):
-    prepopulated_fields = {"alias": ("name",)}
 
 
 # class Cart(models.Model):
@@ -469,3 +286,108 @@ class AdminGoodConsist(ModelAdmin):
 #
 #     def __unicode__(self):
 #         return u'cart item: %s' % self.id
+
+
+class StandardModel(models.Model):
+    field_one = models.CharField(max_length=255)
+    field_two = models.CharField(max_length=255)
+    field_three = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'smodel1'
+
+
+class Order(models.Model):
+    DELIVERY_CHOICES = (
+        (0, u'Выберите значение'),
+        (1, u'Почта России'),
+        (2, u'Транспортная компания'),
+        (3, u'Самовывоз'),
+        (4, u'По договоренности'),
+    )
+    PAYMENT_CHOICES = (
+        (0, u'Выберите значение'),
+        (1, u'Наличными при получении'),
+        (2, u'Банковский перевод'),
+    )
+
+    STATUS_NEW = 1
+    STATUS_ACCEPTED = 2
+    STATUS_PAID = 3
+    STATUS_SEND = 4
+    STATUS_CANCELED = 5
+
+    STATUS_CHOICES = (
+        (STATUS_NEW, u'Новый'),
+        (STATUS_ACCEPTED, u'Принят'),
+        (STATUS_PAID, u'Оплачен'),
+        (STATUS_SEND, u'Отправлен'),
+        (STATUS_CANCELED, u'Отменен'),
+    )
+
+    created = models.DateTimeField(_(u'Дата создания'), auto_now = True)
+    status = models.PositiveSmallIntegerField(_(u'Статус'), choices=STATUS_CHOICES, default=STATUS_NEW, blank=True)
+    fname = models.CharField(_(u'Имя'), max_length=100)
+    phone = models.CharField(_(u'Телефон'), max_length=15)
+    email = models.EmailField(_(u'E-mail'), max_length=100)
+    delivery = models.PositiveSmallIntegerField(_(u'Вариант доставки'), choices = DELIVERY_CHOICES)
+    payment = models.PositiveSmallIntegerField(_(u'Оплата'), choices = PAYMENT_CHOICES)
+    comment = models.TextField(_(u'Комментарий'), blank = True, default = '')
+    ip = models.GenericIPAddressField(_(u'IP'))
+
+
+    def code(self):
+        return '%s%s%s%s%s' % ( self.created.strftime("%a")[0], self.created.strftime("%m"), self.created.strftime("%d"), self.created.strftime("%b")[0], self.id)
+
+    def deliveryMethod(self):
+        for i, s in Order.DELIVERY_CHOICES:
+            if i == self.delivery:
+                return s
+
+        return '--'
+
+    def paymentMethod(self):
+        for i, s in Order.PAYMENT_CHOICES:
+            if i == self.payment:
+                return s
+        return '--'
+
+    def products(self):
+        return OrderProduct.objects.filter(order = self).prefetch_related('sku', 'product')
+
+    def getTotalSum(self):
+        return OrderProduct.objects.filter(order = self).aggregate(total = models.Sum('amount', field = 'price*amount'))['total']
+
+    def __unicode__(self):
+        return u'Заказ #%d от %s [%s]' % (self.id, self.created, self.statusVerbose())
+
+    class Meta:
+        db_table = 'order'
+        verbose_name = _(u'Заказ')
+        verbose_name_plural = _(u'Заказы')
+
+    def statusVerbose(self):
+        for (s, name) in self.STATUS_CHOICES:
+            if s == self.status:
+                return name
+        return 'undeclarated "%s"' % self.status
+
+
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, db_column='order')
+    product = models.ForeignKey(Good, db_column='product')
+    sku = models.ForeignKey(ProductSKU, blank=True, null=True, db_column='sku')
+    amount = models.PositiveIntegerField(_(u'Кол-во'))
+    price = models.DecimalField(_(u'Цена'), max_digits = 15, decimal_places = 2)
+
+    def __unicode__(self):
+        return u'Позиция заказа #%d, Товар: %s #%d, sku: %s' % (self.order.id, self.product.name, self.product.id, self.sku)
+
+    class Meta:
+        db_table = 'order_product'
+        verbose_name = _(u'Позиции заказа')
+        verbose_name_plural = _(u'Позиции заказа')
+
+    def summ(self):
+        return self.amount*self.price
+

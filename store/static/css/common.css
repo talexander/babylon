@@ -626,6 +626,7 @@ body {
 .order.page-content dt {
 	float: left;
 	width: 160px;
+    line-height: 30px;
 }
 
 .order.page-content dd {
@@ -637,7 +638,7 @@ body {
 }
 
 .order.page-content dl input, .order.page-content dl select, .order.page-content dl textarea {
-	width: 220px;
+	width: 300px;
 }
 
 

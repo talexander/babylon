@@ -1,6 +1,7 @@
 {% extends 'layouts/common.tpl' %}
 
 {% block content %}
+        --{{STATIC_URL}}--
 
     <div class="order page-content" style="background-color: #fff; width: 90%; margin: 0 auto;padding: 20px;">
         <ol class="breadcrumb" style="background-color: inherit;">
@@ -8,38 +9,12 @@
         </ol>
 
     <form method="post">
-	<dl>
-        <dt class="name">Имя</dt>
-		<dd><input type="text" name="fname"></dd>
-		
-        <dt class="phone">Телефон</dt>
-		<dd><input type="text" name="phone"></dd>
-		
-        <dt class="email">E-mail</dt>
-		<dd><input type="text" name="email"></dd>
-		
-        <dt class="delivery">Вариант оставки</dt>
-		<dd><select name="delivery">
-            <option value="">Выберите значение</option>
-            <option value="1">Почта России</option>
-            <option value="2">Транспортная компания</option>
-            <option value="3">Самовывоз</option>
-            <option value="3">По договоренности</option>
-        </select></dd>
+        {% csrf_token %}
+        <dl>{{ form.as_dtdd }}
+            <dt>&nbsp;</dt>
+            <dd><input type="submit" name="send" class="cta1-btn" value="Отправить заказ"></dd>
+        </dl>
 
-        <dt class="payment">Оплата</dt>
-		<dd><select name="pay_info">
-            <option value="">Выберите значение</option>
-            <option value="1">Наличными при получении</option>
-            <option value="2">Банковский перевод</option>
-        </select></dd>
-		
-        <dt class="comment">Комментарий</dt>
-		<dd><textarea name="comment"></textarea></dd>
-		
-        <p class="eula">Нажимая на кнопку "Отправить заказ", вы принимаете условия <a href="/eula/">Пользовательского соглашения</a></p>
-		
-        <input type="submit" name="send" class="cta1-btn" value="Отправить заказ">
     </form>
 
         <br><br><br>

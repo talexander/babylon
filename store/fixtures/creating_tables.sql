@@ -150,3 +150,42 @@ ALTER TABLE good MODIFY vendor int unsigned DEFAULT 0;
 ALTER TABLE good MODIFY descr TEXT DEFAULT '';
 ALTER TABLE good_consist ADD COLUMN good_category int unsigned not null; // обновить всем составам это поле (проставить категорию пряжи)
 ALTER TABLE good ADD COLUMN left_amount int unsigned  DEFAULT 0;
+
+
+CREATE TABLE smodel1 (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  field_one varchar(255),
+  field_two  varchar(255),
+  field_three  varchar(255)
+);
+
+CREATE TABLE smodel2 (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  parent_model int,
+  field_one varchar(255),
+  field_two  varchar(255),
+  field_three  varchar(255)
+);
+
+
+CREATE TABLE `order` (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  status SMALLINT UNSIGNED NOT NULL,
+  fname VARCHAR(100) DEFAULT  '',
+  phone VARCHAR (15) DEFAULT '',
+  email VARCHAR(100) DEFAULT  '',
+  delivery SMALLINT UNSIGNED NOT NULL,
+  payment  SMALLINT UNSIGNED NOT NULL,
+  comment TINYTEXT DEFAULT '',
+  ip varchar(100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE order_product (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  `order` INT UNSIGNED NOT NULL,
+  product INT UNSIGNED NOT NULL,
+  sku VARCHAR (100) DEFAULT NULL,
+  amount INT UNSIGNED NOT NULL,
+  price DECIMAL(9,2) unsigned NOT NULL
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

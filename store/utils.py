@@ -8,9 +8,10 @@ def intval(val):
         return 0
 
 def get_cart_items(str):
+    items = []
     if(len(str) > 0 ):
         data = str.split(';')
-        items = []
+
         for pair in data:
             try:
                 r = {}
@@ -29,7 +30,6 @@ def get_cart_items(str):
                 items.append(r)
             except Exception,e:
                 continue
-
     return items
 
 def get_client_ip(request):

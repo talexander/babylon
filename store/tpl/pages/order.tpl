@@ -1,8 +1,6 @@
 {% extends 'layouts/common.tpl' %}
 
 {% block content %}
-        --{{STATIC_URL}}--
-
     <div class="order page-content" style="background-color: #fff; width: 90%; margin: 0 auto;padding: 20px;">
         <ol class="breadcrumb" style="background-color: inherit;">
           <li class="active">Корзина <span class="separate">></span> Оформление заказа</li>

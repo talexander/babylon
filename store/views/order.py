@@ -72,4 +72,20 @@ class OrderView(BaseView, FormView):
             msg.content_subtype = "html"
             msg.send()
 
+            html_content = render_to_string('mail/order.tpl', {
+                'STATIC_URL': 'http://nitki-ulitki.ru/',
+                'order': order,
+                'admin': True,
+            })
+            msg = mail.EmailMessage(u'Новый заказ №%d' % order.id, html_content, from_email, [from_email])
+            msg.content_subtype = "html"
+            msg.send()
+
+
         return super(OrderView, self).form_valid(form)
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super(OrderView, self).render_to_response(context, **response_kwargs)
+        if self.success:
+            response.set_cookie("cart.items", '')
+        return response

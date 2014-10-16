@@ -72,8 +72,12 @@
 				<table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000000;">
 					<tr>
 						<td align="left">
+                            {% if not admin %}
 							<h2>Ваш заказ принят!</h2>
-							<strong style="font-size: 28px; font-weight: normal;">Номер вашего заказа <span style="color:#F26723; font-size:1.5em; padding:0 5px;">{{ order.code }}</span></strong> <br /><br /><br />
+							    <strong style="font-size: 28px; font-weight: normal;">Номер вашего заказа <span style="color:#F26723; font-size:1.5em; padding:0 5px;">{{ order.code }}</span></strong> <br /><br /><br />
+                            {% else %}
+                                <strong style="font-size: 28px; font-weight: normal;">Заказ <span style="color:#F26723; font-size:1.5em; padding:0 5px;">{{ order.code }}</span></strong> <br /><br /><br />
+                            {% endif%}
 						</td>
 					</tr>
 					<tr>
@@ -84,6 +88,9 @@
 									<th style="text-align: center; width: 10%;">Количество</th>
 									<th style="text-align: center; width: 20%;">Цена</th>
 									<th style="text-align: center; width: 20%;">Сумма</th>
+                                    {% if admin %}
+                                        <th style="text-align: center; width: 20%;">Остаток</th>
+                                    {% endif %}
 								</tr>
 
                                 {% for item in order.products %}
@@ -98,6 +105,15 @@
 									<td>{{ item.amount }} шт.</td>
 									<td>{{ item.price|stringformat:"0.2f" }} руб.</td>
 									<td>{{item.summ|stringformat:"0.2f" }} руб.</td>
+                                    {% if admin %}
+                                    <td>
+                                        {% if item.sku %}
+                                            {{ item.sku.left_amount|default:"--" }}
+                                        {% else %}
+                                            {{ item.left_amount|default:"--" }}
+                                        {% endif %}
+                                    </td>
+                                    {% endif %}
 								</tr>
                                 {% endfor %}
 								<tr>
@@ -138,6 +154,15 @@
 									<td style="padding:0 10px 10px 0;"><strong>{{order.paymentMethod }}</strong></td>
 								</tr>
 							</table><br /><br />
+
+                            <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom: 1px dotted #dadada; padding:20px 0; text-align: left;">
+								<tr>
+									<td width="30%" style="padding:0 10px 10px 0;">Комментарий</td>
+									<td style="padding:0 10px 10px 0;">{{order.comment }}</td>
+								</tr>
+							</table><br /><br />
+
+
 
 						</td>
 					</tr>

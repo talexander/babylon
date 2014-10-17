@@ -40,7 +40,7 @@ class GoodsFilterView(ListView, BaseView):
         filter = {
             'color': models.Colour.objects.all().order_by('name'),
             'vendor': models.Vendor.objects.all().order_by('name'),
-            'consist': models.GoodConsist.objects.all().order_by('name'),
+            'consist': models.GoodConsistUnified.objects.all().order_by('name'),
         }
         return filter
 

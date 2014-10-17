@@ -129,7 +129,8 @@ class Good(models.Model):
     alias = models.SlugField(_(u'Алиас'), max_length = 40)
     good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
     vendor = models.ForeignKey('Vendor', db_column = 'vendor', verbose_name = _(u'Производитель'), blank = True, default = 0, null=True)
-    consist = models.ForeignKey('GoodConsist', db_column = 'consist', verbose_name = _(u'Состав'), blank = True, default=0, null=True)
+    consist = models.ForeignKey('GoodConsist', db_column = 'consist', verbose_name = _(u'Состав (произв.)'), blank = True, default=0, null=True)
+    consist_unified = models.ForeignKey('GoodConsistUnified', db_column = 'consist_unified', verbose_name = _(u'Состав (униф.)'), blank = True, default=0, null=True)
     left_amount = models.PositiveIntegerField(_(u'Остаток'), blank=True, default=0, null=True)
     price = models.DecimalField(_(u'Цена'), max_digits = 15, decimal_places = 2)
     descr = models.TextField(_(u'Описание'), default='', null=True, blank=True)
@@ -264,7 +265,6 @@ class Vendor(models.Model):
 class GoodConsist(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 100)
     alias = models.SlugField(_(u'Алиас'), max_length = 50)
-    good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -273,6 +273,19 @@ class GoodConsist(models.Model):
         db_table = 'good_consist'
         verbose_name = _(u'Состав товара')
         verbose_name_plural = _(u'Состав товара')
+
+class GoodConsistUnified(models.Model):
+    name = models.CharField(_(u'Наименование'), max_length = 100)
+    alias = models.SlugField(_(u'Алиас'), max_length = 50)
+    good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
+
+    def __unicode__(self):
+        return u'%s' % self.name
+
+    class Meta:
+        db_table = 'good_consist_unified'
+        verbose_name = _(u'Состав товара (унифицированный)')
+        verbose_name_plural = _(u'Состав товара (унифицированный)')
 
 
 

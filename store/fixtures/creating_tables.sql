@@ -189,3 +189,13 @@ CREATE TABLE order_product (
   amount INT UNSIGNED NOT NULL,
   price DECIMAL(9,2) unsigned NOT NULL
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE good_consist_unified (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  alias varchar(50) NOT NULL,
+  name varchar(100) NOT NULL,
+  good_category int unsigned not null
+);
+
+ALTER TABLE good_consist DROP COLUMN good_category;
+ALTER TABLE good ADD COLUMN consist_unified  INT UNSIGNED;

@@ -51,6 +51,10 @@ class AdminVendor(ModelAdmin):
 class AdminGoodConsist(ModelAdmin):
     prepopulated_fields = {"alias": ("name",)}
 
+class AdminGoodConsistUnified(ModelAdmin):
+    prepopulated_fields = {"alias": ("name",)}
+
+
 class AdminColour(ModelAdmin):
     pass
 

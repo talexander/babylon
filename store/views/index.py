@@ -9,7 +9,7 @@ class IndexView(ListView, BaseView):
     model = models.Good
     # queryset = Book.objects.order_by('-publication_date')
     template_name = "index.tpl"
-
+    # queryset = models.Good.objects.prefetch_related('good_category','vendor','consist','consist_unified')
     context_object_name = 'goods_list'
 
     def get_context_data(self, **kwargs):

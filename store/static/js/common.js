@@ -280,6 +280,12 @@ function onSkuChange(elem) {
         var item = $('.good-thumb-item:first', cont);
     }
 
+    if($('option:selected', elem).data('in-stock')) {
+        $('.stock-state', cont).html('В наличии');
+    } else {
+        $('.stock-state', cont).html('Под заказ');
+    }
+
     var pp = $(item).parents('.product-preview');
     if(!pp.hasClass('viewport')) {
         var activeInd = 0, newActiveInd = 0;

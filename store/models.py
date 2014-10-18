@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from imagekit.models import ImageSpecField
 from pilkit.processors import  ResizeToFill, Adjust, SmartResize, ResizeToCover, ResizeToFit, ResizeCanvas
 from store.bitmask import BitMaskField
+from store.decorators import cached_object
 
 
 from django.contrib.auth.models import User
@@ -154,6 +155,7 @@ class Good(models.Model):
             return ''
         return str(s)
 
+    @cached_object('length2weight', 60)
     def length2weight(self):
         l = self.property('length_m')
         w = self.property('weight_gr')
@@ -168,9 +170,17 @@ class Good(models.Model):
         img_item = GoodImage.objects.filter(good = self.id).order_by(id).first()
         return img_item
 
+    def default_sku(self, raise_e = False):
+        try:
+            return self.get_sku().order_by('-left_amount')[0]
+        except IndexError, e:
+            if raise_e:
+                raise e
+        return None
+
     def thumbnail(self, type):
         try:
-            item = self.get_sku().filter(img__isnull = False).order_by('id')[0]
+            item = self.default_sku(True)
         except IndexError, e:
             try:
                 item = GoodImage.objects.get(good = self.id, kind = GoodImage.KIND_DEFAULT)

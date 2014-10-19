@@ -106,6 +106,6 @@ class GoodsFilterView(ListView, BaseView):
             goods_ids = goods_props.values_list('good_id', flat=True)
             q = q.filter(id__in = goods_ids)
 
-
+        q = q.order_by('-left_amount')
         return q
 

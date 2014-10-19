@@ -195,7 +195,53 @@ CREATE TABLE good_consist_unified (
   alias varchar(50) NOT NULL,
   name varchar(100) NOT NULL,
   good_category int unsigned not null
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 ALTER TABLE good_consist DROP COLUMN good_category;
 ALTER TABLE good ADD COLUMN consist_unified  INT UNSIGNED;
+ALTER TABLE good_consist_unified CHARACTER SET utf8, COLLATE utf8_general_ci;
+
+DROP TRIGGER IF EXISTS update_product_total_amount_on_insert;
+delimiter |
+CREATE TRIGGER update_product_total_amount_on_insert AFTER INSERT ON product_sku
+  FOR EACH ROW
+  BEGIN
+    IF NEW.good > 0 AND IFNULL(NEW.left_amount, 0) > 0 THEN
+      UPDATE good SET left_amount = IFNULL(left_amount, 0) + NEW.left_amount WHERE id = NEW.good;
+    END IF;
+  END;
+|
+delimiter ;
+
+DROP TRIGGER IF EXISTS update_product_total_amount_on_update;
+delimiter |
+CREATE TRIGGER update_product_total_amount_on_update AFTER UPDATE ON product_sku
+  FOR EACH ROW
+  BEGIN
+    IF OLD.good <> NEW.good THEN
+      IF OLD.good > 0 AND IFNULL(OLD.left_amount, 0) > 0 THEN
+        UPDATE good SET left_amount = IFNULL(left_amount, 0) - IFNULL(OLD.left_amount, 0) WHERE id = OLD.good;
+      END IF;
+
+      IF NEW.good > 0 AND IFNULL(NEW.left_amount, 0) > 0 THEN
+        UPDATE good SET left_amount = IFNULL(left_amount, 0) + IFNULL(NEW.left_amount, 0) WHERE id = NEW.good;
+      END IF;
+    ELSEIF IFNULL(NEW.left_amount, 0) <> IFNULL(OLD.left_amount, 0) THEN
+      SET @v = IFNULL(NEW.left_amount, 0) - IFNULL(OLD.left_amount, 0);
+      UPDATE good SET left_amount = IFNULL(left_amount, 0) + @v WHERE id = NEW.good;
+    END IF;
+END;
+|
+delimiter ;
+
+DROP TRIGGER IF EXISTS update_product_total_amount_on_delete;
+delimiter |
+CREATE TRIGGER update_product_total_amount_on_delete AFTER DELETE ON product_sku
+  FOR EACH ROW
+  BEGIN
+    IF OLD.good > 0 AND IFNULL(OLD.left_amount, 0) > 0 THEN
+      UPDATE good SET left_amount = IFNULL(left_amount, 0) - OLD.left_amount WHERE id = OLD.good;
+    END IF;
+  END;
+|
+delimiter ;

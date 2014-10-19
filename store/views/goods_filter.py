@@ -79,7 +79,7 @@ class GoodsFilterView(ListView, BaseView):
         logger.debug('consists: %s' % json.dumps(consists_ids))
 
         if (len(consists_ids) > 0):
-            q = q.filter(consist__in = consists_ids)
+            q = q.filter(consist_unified__in = consists_ids)
 
 
         if (len(colour_ids) > 0):

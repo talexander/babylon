@@ -7,6 +7,14 @@
           <li class="active">Корзина</li>
         </ol>
 
+
+
+        <div class="clear {% if cart|length %} hide {% endif %}" id="empty-cart">
+            Ваша корзина пуста. Пора это исправить! =)
+            <a class="cta1-btn" href="/">Перейти в каталог</a>
+        </div>
+
+        <div id="cart-table" class="{% if not cart|length %} hide {% endif %}">
             {% if cart|length > 4 %}
                 <div class="clear">
                     <a class="cta1-btn pull-right" href="/order/new">Оформить заказ</a>
@@ -52,12 +60,6 @@
                     <td><a href="javascript:void(0)" onclick="removeFromCart(this);" class="del-btn glyphicon glyphicon-remove"></a></td>
                 </tr>
         {% endfor %}
-
-                <tr id="empty-cart" class="hide">
-                    <td colspan="7">
-                        Ваша корзина пуста. Пора это исправить! =)
-                    </td>
-                </tr>
                 <tr class="summarize">
                     <td></td>
                     <td colspan="4">Итого</td>
@@ -70,5 +72,6 @@
                     <a class="cta1-btn pull-right" href="/order/new">Оформить заказ</a>
                 </div>
             {% endif %}
+    </div>
     </div>
 {% endblock %}

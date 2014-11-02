@@ -32,6 +32,18 @@ def get_cart_items(str):
                 continue
     return items
 
+def parseFavourites(str):
+    items = []
+    if(len(str) > 0 ):
+        data = str.split(',')
+        for x in data:
+            try:
+                x = intval(x.replace('g', ''))
+                items.append(x)
+            except Exception,e:
+                continue
+    return items
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:

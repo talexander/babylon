@@ -45,5 +45,6 @@
     </div>
 </div>
 
+    {% include 'include/counters.tpl' %}
 </body>
 </html>

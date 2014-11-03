@@ -99,7 +99,7 @@
                                         {{ item.product.name }}
                                         <span style="color:#777; font-size:0.95em;">{{ item.product.consist.name }} {{item.product.length2weight}}</span>
                                         {% if item.sku %}
-                                            <span style="font-size:0.95em;">{{ item.sku.vendor_colour }}  {% if item.sku.unified_colour %} ( {{ item.sku.unified_colour.name }} ) {% endif %}</span>
+                                            <span style="font-size:0.95em;">{{ item.sku.vendor_colour }} </span>
                                         {% endif %}
                                     </td>
 									<td>{{ item.amount }} шт.</td>

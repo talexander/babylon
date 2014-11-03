@@ -63,7 +63,7 @@
 <!-- inner content -->
 <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
 	<tr>
-		<td align="center" style="border:1px solid #d7d7d7; border-top:1px solid #cfcfcf; box-shadow:0 0 3px 1px #d7d7d7;">
+		<td align="center" style="padding:20px; box-shadow:0 0 3px 1px #d7d7d7;">
 
 	<!-- intro -->
 	<table width="100%" cellpadding="0" cellspacing="15">
@@ -84,10 +84,10 @@
 						<td align="left">
 							<table width="100%" cellpadding="0" cellspacing="0" style="border-top: 1px dotted #dadada; border-bottom: 1px dotted #dadada; padding:20px 0; text-align: center;">
 								<tr>
-									<th style="text-align: left; width: 50%;">Наименование</th>
-									<th style="text-align: center; width: 10%;">Количество</th>
-									<th style="text-align: center; width: 20%;">Цена</th>
-									<th style="text-align: center; width: 20%;">Сумма</th>
+									<th style="text-align: left; width: 50%; padding-top: 10px;">Наименование</th>
+									<th style="text-align: center; width: 10%; padding-top: 10px;">Количество</th>
+									<th style="text-align: center; width: 20%; padding-top: 10px;">Цена</th>
+									<th style="text-align: center; width: 20%; padding-top: 10px;">Сумма</th>
                                     {% if admin %}
                                         <th style="text-align: center; width: 20%;">Остаток</th>
                                     {% endif %}
@@ -117,10 +117,10 @@
 								</tr>
                                 {% endfor %}
 								<tr>
-									<td style="text-align: left; width: 50%;"><strong>Итого</strong></td>
+									<td style="text-align: left; width: 50%; padding-bottom: 10px;"><strong>Итого</strong></td>
 									<td></td>
 									<td></td>
-									<td style="text-align: center; width: 20%;"><strong>{{ order.getTotalSum|stringformat:"0.2f" }} руб.</strong></td>
+									<td style="text-align: center; width: 20%; padding-bottom: 10px;"><strong>{{ order.getTotalSum|stringformat:"0.2f" }} руб.</strong></td>
 								</tr>
 							</table><br /><br />
 

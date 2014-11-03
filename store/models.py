@@ -376,7 +376,7 @@ class Order(models.Model):
         return '--'
 
     def products(self):
-        return OrderProduct.objects.filter(order = self).prefetch_related('sku', 'product')
+        return OrderProduct.objects.filter(order = self).select_related('sku', 'product')
 
     def getTotalSum(self):
         return OrderProduct.objects.filter(order = self).aggregate(total = models.Sum('amount', field = 'price*amount'))['total']

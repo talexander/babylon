@@ -170,6 +170,9 @@ class Good(models.Model):
         img_item = GoodImage.objects.filter(good = self.id).order_by(id).first()
         return img_item
 
+    def images(self):
+        return GoodImage.objects.filter(good = self.id)
+
     def default_sku(self, raise_e = False):
         try:
             return self.get_sku().order_by('-left_amount')[0]

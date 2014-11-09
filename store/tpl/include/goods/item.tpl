@@ -14,7 +14,16 @@
                     {% endif %}
                 {% endfor %}
 
-                <li class="inline-block thumb-arrow rr {% if item.get_sku|length > 4 %}active{% endif %}" style="list-style: none;"><span class="glyphicon glyphicon-chevron-right"></span></li>
+                {% for img in item.images %}
+                    {% if img.thumb2 and img.thumb3 %}
+                        <li class="product-preview">
+                            <a href="javascript:void(0);" data-sku="" class="good-thumb-item" onclick="onThumbClick(this);" data-thumb2="{{ img.thumb2.url }}"><img src="{{ img.thumb3.url }}" alt=""></a>
+                        </li>
+
+                    {% endif %}
+                {% endfor %}
+
+                <li class="inline-block thumb-arrow rr" style="list-style: none;"><span class="glyphicon glyphicon-chevron-right"></span></li>
 
             </ul>
         {% endif %}

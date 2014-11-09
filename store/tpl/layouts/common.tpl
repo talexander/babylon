@@ -25,7 +25,7 @@
         <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-multiselect.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/store.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/common.js?v=1"></script>
     {% endblock %}
 
     <title>{{page.title|default:""}}</title>

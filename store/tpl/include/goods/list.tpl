@@ -29,9 +29,6 @@
                 </span>
             </p>
         </div>
-        <div class="goods-popup-content hide">
-            {% include 'include/goods/item.tpl' %}
-        </div>
     </div>
 {% endfor %}
 </div>

@@ -135,6 +135,12 @@
 									<td style="padding:0 10px 10px 0;">Телефон</td>
 									<td style="padding:0 10px 10px 0;"><strong>{{order.phone}}</strong></td>
 								</tr>
+								{% if admin %}
+									<tr>
+										<td style="padding:0 10px 10px 0;">Email</td>
+										<td style="padding:0 10px 10px 0;"><strong>{{order.email}}</strong></td>
+									</tr>
+								{% end %}
 							</table><br /><br />
 
 							<h3 style="font-size: 28px; margin: 0; font-weight: normal; color: #bbb;">Доставка:</h3>

@@ -389,18 +389,18 @@ body {
     padding: 25px;
 }
 
-#main-popup-content .good-photo {
+.active-product .good-photo {
     float: left;
 	text-align: center;
 }
 
-#main-popup-content .good-wrap-descr {
+.active-product .good-wrap-descr {
     padding: 10px 20px;
     overflow: hidden;
     display: block;
 }
 
-#main-popup-content .good-name {
+.active-product .good-name {
     font-size: 2em;
     margin: 0 0 16px;
     line-height: 25px;
@@ -408,30 +408,30 @@ body {
     font-weight: 200;
 }
 
-#main-popup-content .good-param {
+.active-product .good-param {
     font-weight: 200;
     letter-spacing: 0.05em;
 }
 
-#main-popup-content .good-param .color, #main-popup-content .good-param .count {
+.active-product .good-param .color, .active-product .good-param .count {
     font-weight: 200;
     margin: 10px 0 0 0;
 }
 
-#main-popup-content .good-consist, #main-popup-content .good-length {
+.active-product .good-consist, .active-product .good-length {
     color: #aaa;
 }
 
-#main-popup-content .good-length {
+.active-product .good-length {
     padding-left: 20px;
 }
 
-#main-popup-content .price-block {
+.active-product .price-block {
     font-weight: 500;
     font-size: 1.9em;
 }
 
-#main-popup-content .incart {
+.active-product .incart {
     font-size: 1.2em;
     font-weight: 200;
     padding: 15px 25px;
@@ -653,5 +653,14 @@ body {
 }
 
 /********************* cart page end ***********************/
+
+.loading {
+    background: url(/i/common/loader.gif) no-repeat center center ;
+    position: absolute;
+    left: 45%;
+    top: 33%;
+    width: 32px;
+    height: 32px;
+}
 
 

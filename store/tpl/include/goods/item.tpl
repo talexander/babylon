@@ -1,4 +1,4 @@
-<div id="p-{{ item.id }}" class="product-detail">
+<div id="p-{{ item.id }}" class="product-detail clearfix">
     <div class="good-photo">
         <div>
             <img src="{{ item.thumb2.url }}" alt="img" class="big-thumb" />

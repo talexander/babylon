@@ -216,7 +216,9 @@ function onArrowClick(ev, params) {
 
     var next = $(this).hasClass('ll') ? curr.prev() :  next = curr.next(), dur = typeof params != 'undefined' ? params.duration : 600;
     if(!next.hasClass('viewport')) {
-        var offset = $(this).hasClass('ll') ? $(curr).outerWidth() : -$(curr).outerWidth();
+        console.log('curr', curr.get(), $(curr).outerWidth());
+        //var offset = $(this).hasClass('ll') ? $(curr).outerWidth() : -$(curr).outerWidth();
+        var offset = $(this).hasClass('ll') ? 92 : -92;
         $('li.product-preview', previews).animate({'left': '+=' +  offset}, Math.max(dur, 100), 'linear');
         $(next).addClass('viewport');
         $('li.product-preview.viewport:' + ($(this).hasClass('ll') ? 'last' : 'first'), previews).removeClass('viewport');

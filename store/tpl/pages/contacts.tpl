@@ -6,16 +6,13 @@
         <h2>Контактная информация</h2>
 
         <div class="coordinate">
-			г. Орел, ул. Приборостроительная 8, офис 310<br>
-			тел.: <b>+7 (910) 302-15-24</b><br>
-			skype: <b>ulinitka</b><br>
-			e-mail: <a href="mail-to:sale@nitki-ulitki.ru">sale@nitki-ulitki.ru</a><br>
+			Адрес пункта самовывоза: г. Орел, ул. Ленина 17, ТЦ "Малиновая вода", 4й этаж, офис 9В<br>
+			Тел.: <b>63-02-45</b><br>
 			<br>
-			<a href="#" class="dashed">Юридический адрес</a>
         </div>
 
-        <div class="map">
-        </div>
+		<script type="text/javascript" charset="utf-8" src="//api-maps.yandex.ru/services/constructor/1.0/js/?sid=5GgCcTR2Je0c-FcGtcnNM9bTlKWeb5s-&height=450"></script>
+
     </section>
 
 {% endblock %}

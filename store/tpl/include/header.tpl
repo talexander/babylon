@@ -29,7 +29,7 @@
 </nav>
 
 
-<div id="main-nav" class="navbar-fixed-top">
+<div style="display:none;" id="main-nav" class="navbar-fixed-top">
     <div class="container-fluid" style="position: relative;">
         <div class="center-block">
             <ul id="main-menu-fl">

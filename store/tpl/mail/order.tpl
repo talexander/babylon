@@ -140,7 +140,7 @@
 										<td style="padding:0 10px 10px 0;">Email</td>
 										<td style="padding:0 10px 10px 0;"><strong>{{order.email}}</strong></td>
 									</tr>
-								{% end %}
+								{% endif %}
 							</table><br /><br />
 
 							<h3 style="font-size: 28px; margin: 0; font-weight: normal; color: #bbb;">Доставка:</h3>

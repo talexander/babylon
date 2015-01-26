@@ -19,6 +19,11 @@ $(function(){
     $('.cart-product-list:not(.nocalc) .product').each(function(i, e) {
         recalcSum(e);
     });
+    $('#btn-search').on('click', function(e) {
+        e.preventDefault();
+        $(e.target).parents('form').submit();
+        return false;
+    });
 
     var productItem = $('#product-item');
     if(productItem.length > 0) {
@@ -389,6 +394,18 @@ function recalcSum(elem) {
     var price = parseFloat(product.find('.price').html());
     var count = parseFloat(product.find('.count input').val());
     var sum = price*count > 0 ? (price*count + ' руб.'): '--';
+
+    var str = product.attr("id"), p = {};
+    if(str.indexOf('_') > 0) {
+        p['id'] = str.slice(1, str.indexOf('_'))
+        p['sku'] = str.slice(str.indexOf('_') + 1);
+    } else {
+        p['id'] = str.slice(1)
+    }
+    if('store' in window && store && 'cart' in store) {
+        store.cart.update(new Product(p), count);
+    }
+
     product.find('.summ').html(sum);
     recalcTotal();
     console.info('product', product, 'price', price, 'cnt', count, 'summ', sum);

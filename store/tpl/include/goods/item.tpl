@@ -48,7 +48,7 @@
         {% endif %}
 
         <p class="good-param"><label class="count">Количество мотков:</label></p>
-        <p><input name="amount" type="text"  value="1"></p>
+        <p><input name="amount" value="1" type="number"  min="1" step="1"></p>
         <a class="cta1-btn incart" href="javascript:void(0);" onclick="add2cart(this);" data-product-id="{{ item.id }}">Добавить в корзину</a>
         <span class="hide">В корзине</span>
         <p class="good-descr">{{ item.descr }}</p>

@@ -50,7 +50,7 @@
                     <td class="instock"><span class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
                     <td class="instock">
-                        <span class="glyphicon glyphicon-dashboard"></span><br>
+                        <span class="glyphicon glyphicon-dashboard"></span><br />
                         <span style="white-space: nowrap; ">под заказ </span>
                     </td>
                 {% endif %}

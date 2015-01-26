@@ -3,7 +3,7 @@ function Cart(items) {
 }
 Cart.prototype.add = function(product, amount) {
     console.info('add2cart, amount: ' + amount + ', product', product);
-    if(amount < 0 ) {
+    if(amount <= 0 ) {
         return false;
     }
     var pId = product.getId();
@@ -17,6 +17,16 @@ Cart.prototype.add = function(product, amount) {
     this.syncData(true);
     return true;
 };
+
+Cart.prototype.update = function(product, amount) {
+    if(amount <= 0 ) {
+        this.remove(product);
+        return false;
+    }
+    this.add(product, amount);
+    return true;
+};
+
 
 Cart.prototype.remove = function(product) {
     var pId = product.getId();

@@ -8,12 +8,15 @@ class BaseView:
     def common_vars(self):
         return {
             'page': {
-                'title': settings.SITE_NAME,
+                'title': self.title(),
                 'seo': self.seo(),
             },
             'rand': random.randint(1, 1000000),
             'STATIC_URL': settings.STATIC_URL,
         }
+
+    def title(self):
+        return settings.SITE_NAME
 
     def seo(self):
         return {

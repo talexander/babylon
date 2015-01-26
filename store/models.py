@@ -402,7 +402,7 @@ class Order(models.Model):
         return OrderProduct.objects.filter(order = self).select_related('sku', 'product')
 
     def getTotalSum(self):
-        return OrderProduct.objects.filter(order = self).aggregate(total = models.Sum('amount', field = 'price*amount'))['total']
+        return OrderProduct.objects.filter(order = self).aggregate(total = models.Sum('price', field = 'price*amount'))['total']
 
     def __unicode__(self):
         return u'Заказ #%d от %s [%s]' % (self.id, self.created, self.statusVerbose())

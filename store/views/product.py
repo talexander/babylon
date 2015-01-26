@@ -36,3 +36,6 @@ class ProductView(DetailView, BaseView):
                 upd[k] = s.get(k, '')
 
         return upd
+
+    def title(self):
+        return u'%s: «%s, %s».  Интернет—магазин «Улиткина пряжа»' % (self.object.good_category.name, self.object.vendor.name, self.object.name)

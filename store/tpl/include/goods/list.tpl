@@ -3,7 +3,7 @@
     <div class="goods-preview inline-block" id="g{{ item.id }}">
         <a class="cta1-btn cart-btn">В корзину</a>
         <a class="favorite-btn glyphicon glyphicon-heart" href="javascript:void(0)"></a>
-        <a class="thumb-photo" href="{% url 'product_url' item.good_category.alias item.alias %}">
+        <a class="thumb-photo" href="{% url 'product_url_long' item.good_category.alias item.vendor.alias item.alias %}">
             {% if item.thumb %}
                 <img src="{{ item.thumb.url }}" alt="{{ item.name }}"/>
             {% else %}
@@ -12,7 +12,7 @@
         </a>
         <div class="goods-descr text-left">
             <h3 class="clearfix">
-                <a href="{% url 'product_url' item.good_category.alias item.alias %}" class="goods-link">
+                <a href="{% url 'product_url_long' item.good_category.alias item.vendor.alias item.alias %}" class="goods-link">
                     {{ item.name }}
                     <span class="price pull-right">{{ item.price }} руб.</span></a>
             </h3>

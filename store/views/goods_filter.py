@@ -33,6 +33,7 @@ class GoodsFilterView(ListView, BaseView):
             'vendors':  [sUtils.intval(x) for x in self.request.GET.getlist('gf_vendor', [])],
             'colours': [sUtils.intval(x) for x in self.request.GET.getlist('gf_colour', [])],
             'consists': [sUtils.intval(x) for x in self.request.GET.getlist('gf_consist', [])],
+            'q': self.request.GET.get('q', ''),
         }
         return context
 
@@ -46,7 +47,11 @@ class GoodsFilterView(ListView, BaseView):
 
 
     def get_queryset(self):
-        q = models.Good.objects.filter()
+        q = models.Good.active()
+        if (self.request.GET.get('q', '')):
+            qq = models.Good.search.query(self.request.GET.get('q', '')).order_by('@weight')
+            ids = [sUtils.intval(x.id) for x in qq]
+            q = q.filter(pk__in = ids)
 
         logger.debug('args: %s, kwargs: %s' % (json.dumps(self.args), json.dumps(self.kwargs)))
         if (self.kwargs.get('category', '')):

@@ -202,3 +202,5 @@ CACHES = {
         }
     }
 }
+
+SPHINX_API_VERSION = 0x116

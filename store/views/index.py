@@ -10,7 +10,7 @@ class IndexView(ListView, BaseView):
     # queryset = Book.objects.order_by('-publication_date')
     template_name = "index.tpl"
     context_object_name = 'goods_list'
-    queryset = models.Good.objects.order_by('-left_amount')
+    queryset = models.Good.active().order_by('-left_amount')
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context

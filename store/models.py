@@ -7,6 +7,7 @@ from imagekit.models import ImageSpecField
 from pilkit.processors import  ResizeToFill, Adjust, SmartResize, ResizeToCover, ResizeToFit, ResizeCanvas
 from store.bitmask import BitMaskField
 from store.decorators import cached_object
+from djangosphinx import SphinxSearch
 
 
 from django.contrib.auth.models import User
@@ -57,6 +58,8 @@ class PropertyGroup(models.Model):
 
 class Property(models.Model):
     PROP_ALIAS_LENGTH = 'length_m'
+    PROP_ALIAS_SEO_KEYWORDS = 'seo_keywords'
+    PROP_ALIAS_SEO_DESCR = 'seo_descr'
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     name = models.CharField(_(u'Наименование'), max_length = 255)
     alias = models.SlugField(_(u'Алиас'), max_length = 40)
@@ -124,6 +127,7 @@ class ProductSKU(models.Model):
 
 class Good(models.Model):
     FLAG_IN_STOCK = 0x004
+    FLAG_DISABLED = 0x002
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled'), (FLAG_IN_STOCK, u'In stock'),]
     #  (0x008, u'Под заказ'), (0x010, u'New'), (0x020, u'Акция')
     name = models.CharField(_(u'Наименование'), max_length = 255)
@@ -136,6 +140,22 @@ class Good(models.Model):
     price = models.DecimalField(_(u'Цена'), max_digits = 15, decimal_places = 2)
     descr = models.TextField(_(u'Описание'), default='', null=True, blank=True)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
+
+    search = SphinxSearch(
+        index='idx_products',
+        weights={
+            'name': 100,
+            'descr': 60,
+            'vendor_name': 10,
+            'consist_unified': 40,
+        },
+        mode='SPH_MATCH_EXTENDED',
+        rankmode='SPH_RANK_NONE',
+    )
+
+    @staticmethod
+    def active():
+        return Good.objects.extra(where=["NOT(flags&%d > 0)" % Good.FLAG_DISABLED])
 
 
     def __unicode__(self):

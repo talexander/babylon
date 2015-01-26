@@ -2,12 +2,14 @@
     <div class="container-fluid">
         <a href="/" id="main-logo"></a>
         <div class="navbar-left">
-            <div class="input-group" id="search-box">
-              <input type="text" class="form-control input-sm col-lg-10" placeholder="Поиск">
-              <span class="input-group-btn">
-                <button class="btn btn-sm btn-default" type="button"><span class="glyphicon glyphicon-search" style="top: 3px;"></span></button>
-              </span>
-            </div>
+            <form method="get" action="/filter">
+                <div class="input-group" id="search-box">
+                    <input type="text" name="q" value="{{gf.q}}" class="form-control input-sm col-lg-10" placeholder="Поиск">
+                    <span class="input-group-btn">
+                    <button id="btn-search" class="btn btn-sm btn-default" type="button"><span class="glyphicon glyphicon-search" style="top: 3px;"></span></button>
+                    </span>
+                </div>
+            </form>
         </div>
         <div id="navbar-right">
             <ul>

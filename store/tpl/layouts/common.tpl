@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block seo %}
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <meta name="description" content="{{page.seo.description}}">
+    <meta name="keywords" content="{{page.seo.keywords}}">
     {% endblock %}
 
     <link rel="shortcut icon" href="{{STATIC_URL}}i/favicon.ico">

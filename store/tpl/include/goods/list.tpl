@@ -5,7 +5,7 @@
         <a class="favorite-btn glyphicon glyphicon-heart" href="javascript:void(0)"></a>
         <a class="thumb-photo" href="{% url 'product_url' item.good_category.alias item.alias %}">
             {% if item.thumb %}
-                <img src="{{ item.thumb.url }}" alt="img"/>
+                <img src="{{ item.thumb.url }}" alt="{{ item.name }}"/>
             {% else %}
                 <span>нет изображения для товара ID={{ item.id }}</span>
             {% endif %}

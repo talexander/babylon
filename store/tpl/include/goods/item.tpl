@@ -1,7 +1,7 @@
 <div id="p-{{ item.id }}" class="product-detail clearfix">
     <div class="good-photo">
         <div>
-            <img src="{{ item.thumb2.url }}" alt="img" class="big-thumb" />
+            <img src="{{ item.thumb2.url }}" alt="{{ item.name }}" class="big-thumb" />
         </div>
         {% if item.get_sku %}
             <ul class="product-preview-list">
@@ -17,7 +17,7 @@
                 {% for img in item.images %}
                     {% if img.thumb2 and img.thumb3 %}
                         <li class="product-preview">
-                            <a href="javascript:void(0);" data-sku="" class="good-thumb-item" onclick="onThumbClick(this);" data-thumb2="{{ img.thumb2.url }}"><img src="{{ img.thumb3.url }}" alt=""></a>
+                            <a href="javascript:void(0);" data-sku="" class="good-thumb-item" onclick="onThumbClick(this);" data-thumb2="{{ img.thumb2.url }}"><img src="{{ img.thumb3.url }}" alt="{{ item.name }}"></a>
                         </li>
 
                     {% endif %}

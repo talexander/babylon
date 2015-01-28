@@ -10,6 +10,9 @@
 
     <link rel="shortcut icon" href="{{STATIC_URL}}i/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if page.canonical %}
+        <link rel="canonical" href="{{page.canonical}}" />
+    {% endif %}
 
     {% block css %}
         <link href="{{STATIC_URL}}css/common.css?{{ rand }}" rel="stylesheet" type="text/css" />

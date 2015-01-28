@@ -5,6 +5,9 @@ from django.views.generic.base import ContextMixin
 from store.views.base import BaseView
 from store import models
 import logging
+import json
+from django.core.urlresolvers import reverse
+
 logger = logging.getLogger(__name__)
 
 class ProductView(DetailView, BaseView):
@@ -20,6 +23,9 @@ class ProductView(DetailView, BaseView):
         context = super(ProductView, self).get_context_data(**kwargs)
 
         context.update(self.common_vars())
+        if not self.kwargs.get('vendor', False):
+            context['page']['canonical'] = reverse('product_url_long', kwargs={'category': kwargs['object'].good_category.alias, 'vendor': kwargs['object'].vendor.alias, 'slug': kwargs['object'].alias })
+
         return context
 
     def seo(self):

@@ -46,7 +46,9 @@
                             <span>{{ item.sku.vendor_colour }}</span>
                         {% endif %}
                     </td>
-                {% if item.sku.left_amount > 0 or item.product.in_stock %}
+                {% if item.sku and item.sku.left_amount > 0 %}
+                    <td class="instock"><span class="glyphicon glyphicon-ok"></span></td>
+                {% elif not item.sku and item.product.left_amount > 0 %}
                     <td class="instock"><span class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
                     <td class="instock">

@@ -4,11 +4,6 @@
 from django.contrib import admin
 from store import models
 from store import admin_models
-import store.forms.base as forms
-
-class StandardModelAdmin(admin.ModelAdmin):
-    model = models.StandardModel
-    form = forms.StandardModelForm
 
 
 admin.site.register(models.Measure, admin_models.AdminMeasure)
@@ -22,7 +17,6 @@ admin.site.register(models.Vendor, admin_models.AdminVendor)
 admin.site.register(models.GoodConsist, admin_models.AdminGoodConsist)
 admin.site.register(models.GoodConsistUnified, admin_models.AdminGoodConsistUnified)
 admin.site.register(models.Colour, admin_models.AdminColour)
-admin.site.register(models.StandardModel, StandardModelAdmin)
 admin.site.register(models.Order, admin_models.AdminOrder)
 
 

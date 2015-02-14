@@ -1,17 +1,9 @@
 # --*-- coding: utf-8 --*--
 
-from store.forms.field import  DependentField
+from store.forms.field import DependentField
 from django import forms
-from store.models import StandardModel
 from django.forms import widgets
 from store import models
-
-class StandardModelForm(forms.ModelForm):
-    class Meta:
-        model = StandardModel
-
-    field_one = forms.ChoiceField(choices=(('', '------------'), (1, u'Код цвета'), (2, u'Диаметр'), (3, u'Еще что-то')))
-    field_two = DependentField(parent_field = 'field_one', datasource = '/chainedselectchoices')
 
 class OrderForm(forms.Form):
 

@@ -8,6 +8,7 @@ from pilkit.processors import  ResizeToFill, Adjust, SmartResize, ResizeToCover,
 from store.bitmask import BitMaskField
 from store.decorators import cached_object
 from djangosphinx import SphinxSearch
+from polymorphic import PolymorphicModel
 
 
 from django.contrib.auth.models import User
@@ -114,7 +115,7 @@ class ProductSKU(models.Model):
     width = models.CharField(max_length=7, blank = True, null = True)
     height = models.CharField(max_length=7, blank = True, null = True)
     left_amount = models.PositiveIntegerField(_(u'Остаток'), blank=False, default=0)
-
+    dia = models.FloatField(_(u'Диаметр'), blank=True, default=0)
 
     class Meta:
         db_table = 'product_sku'
@@ -147,7 +148,7 @@ class Good(models.Model):
             'name': 100,
             'descr': 60,
             'vendor_name': 10,
-            'consist_unified': 40,
+            'consist_unified': 40, # TODO
         },
         mode='SPH_MATCH_EXTENDED',
         rankmode='SPH_RANK_NONE',
@@ -206,7 +207,7 @@ class Good(models.Model):
             item = self.default_sku(True)
         except IndexError, e:
             try:
-                item = GoodImage.objects.get(good = self.id, kind = GoodImage.KIND_DEFAULT)
+                item = GoodImage.objects.first(good = self.id, kind = GoodImage.KIND_DEFAULT)
             except exceptions.ObjectDoesNotExist, e:
                 item = self.img()
                 if (not item):
@@ -270,8 +271,8 @@ class GoodImage(models.Model):
     thumb1 = ImageSpecField([ResizeToFit(190, 275), ], source='img',  options={'quality': 90})
     thumb2 = ImageSpecField([ResizeToFit(600, 600), ], source='img', options={'quality': 90})
     thumb3 = ImageSpecField([ResizeToFit(80, 160), ], source='img', options={'quality': 90})
-    kind = models.IntegerField(_(u'Тип'), blank = True, default = 0, null = False, choices = KINDS)
-    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 1)
+    kind = models.IntegerField(_(u'Тип'), blank = True, default = KIND_DEFAULT, choices = KINDS)
+    flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     class Meta:
         db_table = 'good_image'

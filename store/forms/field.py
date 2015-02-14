@@ -1,4 +1,4 @@
-from store.widgets import ChainedSelect, DependentControl
+from store.widgets import DependentControl
 from django.forms import Field
 from django.forms import widgets
 

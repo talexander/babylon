@@ -5,7 +5,6 @@ from store.views.login import LoginView
 from store.views.register import RegisterView
 from store.views.register_success import RegisterSuccessView
 from store.views.logout import LogoutView
-# from store.views.chained_select import ChainedSelectChoices
 
 from django.contrib import admin
 admin.autodiscover()
@@ -31,7 +30,6 @@ urlpatterns = patterns('',
     url(r'^register/?$', RegisterView.as_view()),
     url(r'^register/success/?$', RegisterSuccessView.as_view()),
 
-    # url(r'^chainedselectchoices$', ChainedSelectChoices.as_view(), name = 'chained_select_choices'),
 
     # url(r'^store/', include('store.foo.urls')),
 

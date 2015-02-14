@@ -151,23 +151,6 @@ ALTER TABLE good MODIFY descr TEXT DEFAULT '';
 ALTER TABLE good_consist ADD COLUMN good_category int unsigned not null; // обновить всем составам это поле (проставить категорию пряжи)
 ALTER TABLE good ADD COLUMN left_amount int unsigned  DEFAULT 0;
 
-
-CREATE TABLE smodel1 (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  field_one varchar(255),
-  field_two  varchar(255),
-  field_three  varchar(255)
-);
-
-CREATE TABLE smodel2 (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  parent_model int,
-  field_one varchar(255),
-  field_two  varchar(255),
-  field_three  varchar(255)
-);
-
-
 CREATE TABLE `order` (
   id INT AUTO_INCREMENT PRIMARY KEY,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -245,3 +228,6 @@ CREATE TRIGGER update_product_total_amount_on_delete AFTER DELETE ON product_sku
   END;
 |
 delimiter ;
+
+
+ALTER TABLE product_sku ADD COLUMN dia DECIMAL(12,2) UNSIGNED DEFAULT 0;

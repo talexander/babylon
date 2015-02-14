@@ -4,7 +4,6 @@ from store import models
 
 from imagekit.admin import AdminThumbnail
 from django.contrib.admin import ModelAdmin, TabularInline, StackedInline
-from store import forms
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 

@@ -27,8 +27,11 @@
     </div>
 
     <div class="good-wrap-descr">
-        <h2 class="good-name">{{ item.good_category.name }} {{ item.name }}</h2>
-        <p class="good-param"><span class="good-consist">Состав: </span>{{ item.consist.name }} <span class="good-length">Метраж: </span>{{ item.length2weight }}</p>
+        <h2 class="good-name">{% if item.isYarn %} {{ item.good_category.name }} {% endif %} {{ item.name }}</h2>
+        <p class="good-param">
+            <span class="good-consist">Состав: </span>{{ item.consist.name }}
+            {% if item.isYarn %} <span class="good-length">Метраж: </span>{{ item.length2weight }} {% endif %}
+        </p>
         <p class="em price-block">{{ item.price }} руб.</p>
         {% if item.get_sku %}
             <p class="good-param"><label class="color">Цвет:</label></p>

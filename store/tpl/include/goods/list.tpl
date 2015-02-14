@@ -18,7 +18,7 @@
             </h3>
             <p>
                 <span class="consist">{{ item.consist.name }}</span>
-                <span class="length-to-weight">{{ item.length2weight }}</span>
+                {% if item.isYarn %} <span class="length-to-weight">{{ item.length2weight }}</span>{% endif %}
                 <span class="in-stock">
                     {% if item.default_sku  %}
                         {% if item.default_sku.left_amount > 0 %} В наличии {%  else %} Под заказ {% endif %}

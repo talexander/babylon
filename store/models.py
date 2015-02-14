@@ -78,6 +78,7 @@ class Property(models.Model):
 
 
 class GoodCategory(models.Model):
+    ALIAS_YARN = 'pryazha'
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     name = models.CharField(_(u'Наименование'), max_length = 255)
     alias = models.SlugField(_(u'Алиас'), max_length = 40)
@@ -239,6 +240,9 @@ class Good(models.Model):
         except Exception, e:
             raise e
             return False
+
+    def isYarn(self):
+        return self.good_category.alias == GoodCategory.ALIAS_YARN
 
     class Meta:
         db_table = 'good'

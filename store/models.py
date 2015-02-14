@@ -206,7 +206,7 @@ class Good(models.Model):
             item = self.default_sku(True)
         except IndexError, e:
             try:
-                item = GoodImage.objects.get(good = self.id, kind = GoodImage.KIND_DEFAULT)
+                item = GoodImage.objects.filter(good = self.id, kind = GoodImage.KIND_DEFAULT).first()
             except exceptions.ObjectDoesNotExist, e:
                 item = self.img()
                 if (not item):

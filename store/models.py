@@ -8,7 +8,6 @@ from pilkit.processors import  ResizeToFill, Adjust, SmartResize, ResizeToCover,
 from store.bitmask import BitMaskField
 from store.decorators import cached_object
 from djangosphinx import SphinxSearch
-from polymorphic import PolymorphicModel
 
 
 from django.contrib.auth.models import User
@@ -118,6 +117,7 @@ class ProductSKU(models.Model):
     left_amount = models.PositiveIntegerField(_(u'Остаток'), blank=False, default=0)
     dia = models.FloatField(_(u'Диаметр'), blank=True, default=0)
 
+
     class Meta:
         db_table = 'product_sku'
         verbose_name = _(u'Артикул')
@@ -149,7 +149,7 @@ class Good(models.Model):
             'name': 100,
             'descr': 60,
             'vendor_name': 10,
-            'consist_unified': 40, # TODO
+            'consist_unified': 40,
         },
         mode='SPH_MATCH_EXTENDED',
         rankmode='SPH_RANK_NONE',
@@ -208,7 +208,7 @@ class Good(models.Model):
             item = self.default_sku(True)
         except IndexError, e:
             try:
-                item = GoodImage.objects.first(good = self.id, kind = GoodImage.KIND_DEFAULT)
+                item = GoodImage.objects.filter(good = self.id, kind = GoodImage.KIND_DEFAULT).first()
             except exceptions.ObjectDoesNotExist, e:
                 item = self.img()
                 if (not item):

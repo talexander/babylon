@@ -25,6 +25,31 @@ $(function(){
         return false;
     });
 
+    $('#goods-filter').submit(function(e) {
+//        e.preventDefault();
+        var params = $(this).serializeArray(), fill_cnt = 0, rem = [];
+
+        for(var i in params) {
+            var v = params[i];
+            if(v.value && v.name != 'multiselect') {
+                fill_cnt++;
+            } else {
+                rem.push(v.name);
+            }
+        }
+        if(fill_cnt > 0) {
+            for(i = 0; i < rem.length; i++) {
+                $('[name=' + rem[i] + ']', this).remove();
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+        return true;
+    });
+
+
     var productItem = $('#product-item');
     if(productItem.length > 0) {
         productDetailRender(productItem);
@@ -301,10 +326,13 @@ function add2cart(elem) {
     console.log('ee', elem);
     $(elem).tooltip({
         placement: 'right',
-        delay: { show: 500, hide: 1500 },
+        delay: { show: 500},
         title: function() {
-            return 'Товар успешно добавлен в корзину';
-        }
+            return 'Товар&nbsp;добавлен&nbsp;в&nbsp;корзину.<br> <a href="/cart/">Перейти в корзину</a>';
+        },
+        html: 1,
+        trigger: 'manual',
+        template: '<div class="tooltip link2cart" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
         //, container: '#goods-favorite-tooltip'
     }).tooltip('show');
 }

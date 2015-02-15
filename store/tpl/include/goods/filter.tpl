@@ -1,3 +1,4 @@
+{% if filter_data %}
 <form id="goods-filter" action="/filter" method="get">
     <ul>
         <li id="price-filter" class="b inline-block">
@@ -39,7 +40,8 @@
             <span class="n">м.</span>
         </li>
         <li id="btn-apply-filter" class="inline-block">
-            <input name="gf_apply" type="submit" class="cta1-btn" value="Показать" />
+            <input type="submit" class="cta1-btn" value="Показать" />
         </li>
     </ul>
 </form>
+{% endif %}

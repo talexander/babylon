@@ -97,9 +97,16 @@
                                 <tr>
 									<td style="text-align: left; padding: 10px 10px 10px 0;">
                                         {{ item.product.name }}
-                                        <span style="color:#777; font-size:0.95em;">{{ item.product.consist.name }} {{item.product.length2weight}}</span>
-                                        {% if item.sku %}
-                                            <span style="font-size:0.95em;">{{ item.sku.vendor_colour }} </span>
+
+                                        {% if item.product.isYarn %}
+                                            <span style="color:#777; font-size:0.95em;">{{ item.product.consist.name }} {{item.product.length2weight}}</span>
+                                            {% if item.sku %}
+                                                <span style="font-size:0.95em;">{{ item.sku.vendor_colour }} </span>
+                                            {% endif %}
+                                        {% elif item.product.isNeedle %}
+                                            {% if item.sku %}
+                                                <span style="font-weight: bold;">({{ item.sku.dia|floatformat:"-2" }} мм)</span>
+                                            {% endif %}
                                         {% endif %}
                                     </td>
 									<td>{{ item.amount }} шт.</td>

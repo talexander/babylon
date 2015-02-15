@@ -24,17 +24,30 @@ class GoodsFilterView(ListView, BaseView):
         context = super(GoodsFilterView, self).get_context_data(**kwargs)
 
         context.update(self.common_vars())
-        context['filter_data'] = self.filter_data()
-        context['gf'] = {
-            'price_from': self.request.GET.get('gf_price_from', ''),
-            'price_to': self.request.GET.get('gf_price_to', ''),
-            'length_from': self.request.GET.get('gf_length_from', ''),
-            'length_to': self.request.GET.get('gf_length_to', ''),
-            'vendors':  [sUtils.intval(x) for x in self.request.GET.getlist('gf_vendor', [])],
-            'colours': [sUtils.intval(x) for x in self.request.GET.getlist('gf_colour', [])],
-            'consists': [sUtils.intval(x) for x in self.request.GET.getlist('gf_consist', [])],
-            'q': self.request.GET.get('q', ''),
-        }
+        show_filter = True
+        context['not_filled_yet'] = False
+        if (self.kwargs.get('category', '')):
+            show_filter = False
+            cat = str(self.kwargs.get('category', ''))
+            cat_list = cat.split('+')
+            if cat_list and models.GoodCategory.ALIAS_YARN in cat_list:
+                show_filter = True
+            else:
+                context['not_filled_yet'] = True
+        if show_filter:
+            context['filter_data'] = self.filter_data()
+            context['gf'] = {
+                'price_from': self.request.GET.get('gf_price_from', ''),
+                'price_to': self.request.GET.get('gf_price_to', ''),
+                'length_from': self.request.GET.get('gf_length_from', ''),
+                'length_to': self.request.GET.get('gf_length_to', ''),
+                'vendors':  [sUtils.intval(x) for x in self.request.GET.getlist('gf_vendor', [])],
+                'colours': [sUtils.intval(x) for x in self.request.GET.getlist('gf_colour', [])],
+                'consists': [sUtils.intval(x) for x in self.request.GET.getlist('gf_consist', [])],
+                'q': self.request.GET.get('q', ''),
+            }
+
+
         return context
 
     def filter_data(self):
@@ -50,7 +63,7 @@ class GoodsFilterView(ListView, BaseView):
         q = models.Good.active()
         if (self.request.GET.get('q', '')):
             qq = models.Good.search.query(self.request.GET.get('q', '')).order_by('@weight')
-            ids = [sUtils.intval(x.id) for x in qq]
+            ids = [sUtils.intval(x.id) for x in qq[0:100]]
             q = q.filter(pk__in = ids)
 
         logger.debug('args: %s, kwargs: %s' % (json.dumps(self.args), json.dumps(self.kwargs)))

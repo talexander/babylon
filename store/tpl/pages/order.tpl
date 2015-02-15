@@ -35,9 +35,15 @@
                         {% endif %}
                     </td>
                     <td>{{ item.product.name }} <em>{{ item.product.consist.name }}</em>
-                        <span style="color:#989898">{{ item.product.length2weight }}</span>
-                        {% if item.sku %}
-                            <span>{{ item.sku.vendor_colour }}</span>
+                        {% if item.product.isYarn %}
+                            <span style="color:#989898">{{ item.product.length2weight }}</span>
+                            {% if item.sku %}
+                                <span>{{ item.sku.vendor_colour }}</span>
+                            {% endif %}
+                        {% elif item.product.isNeedle %}
+                            {% if item.sku %}
+                                <span style="font-weight: bold;">({{ item.sku.dia|floatformat:"-2" }} мм)</span>
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td><span class="price">{{ item.product.price|stringformat:"0.2f" }}</span> руб.</td>

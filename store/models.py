@@ -78,6 +78,9 @@ class Property(models.Model):
 
 class GoodCategory(models.Model):
     ALIAS_YARN = 'pryazha'
+    ALIAS_HOOKS = 'kryuchki'
+    ALIAS_NEEDLE = 'spicy'
+
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     name = models.CharField(_(u'Наименование'), max_length = 255)
     alias = models.SlugField(_(u'Алиас'), max_length = 40)
@@ -106,9 +109,9 @@ class Colour(models.Model):
 
 class ProductSKU(models.Model):
     good = models.ForeignKey('Good', db_column = 'good', verbose_name = _(u'Товар'))
-    unified_colour = models.ForeignKey('Colour', db_column = 'unified_colour', verbose_name = _(u'Унифицированный цвет'))
-    vendor_colour = models.CharField(_(u'Цвет производителя'), max_length = 150)
-    img = models.ImageField(_(u'Картинка'), upload_to ='goods/', max_length = 255, width_field = 'width', height_field = 'height')
+    unified_colour = models.ForeignKey('Colour', db_column = 'unified_colour', verbose_name = _(u'Унифицированный цвет'), blank=True, null=True)
+    vendor_colour = models.CharField(_(u'Цвет производителя'), max_length = 150, blank=True, null=True)
+    img = models.ImageField(_(u'Картинка'), upload_to ='goods/', max_length = 255, width_field = 'width', height_field = 'height', blank=True, null=True)
     thumb1 = ImageSpecField([ResizeToFit(190, 275), ], source='img',  options={'quality': 90})
     thumb2 = ImageSpecField([ResizeToFit(600, 600), ], source='img', options={'quality': 90})
     thumb3 = ImageSpecField([ResizeToFit(80, 160), ], source='img', options={'quality': 90})
@@ -149,7 +152,7 @@ class Good(models.Model):
             'name': 100,
             'descr': 60,
             'vendor_name': 10,
-            'consist_unified': 40,
+            'consist_unified': 30,
         },
         mode='SPH_MATCH_EXTENDED',
         rankmode='SPH_RANK_NONE',
@@ -204,9 +207,13 @@ class Good(models.Model):
         return None
 
     def thumbnail(self, type):
+        item = False
         try:
             item = self.default_sku(True)
         except IndexError, e:
+            pass
+
+        if not item or not getattr(item, type):
             try:
                 item = GoodImage.objects.filter(good = self.id, kind = GoodImage.KIND_DEFAULT).first()
             except exceptions.ObjectDoesNotExist, e:
@@ -232,7 +239,7 @@ class Good(models.Model):
         return (self.flags & Good.FLAG_IN_STOCK > 0)
 
     def get_sku(self):
-        return ProductSKU.objects.filter(good = self.id).exclude(vendor_colour__isnull=True).exclude(vendor_colour__exact='')
+        return ProductSKU.objects.filter(good = self.id) #.exclude(vendor_colour__isnull=True).exclude(vendor_colour__exact='')
 
     def sku(self, id):
         try:
@@ -243,6 +250,9 @@ class Good(models.Model):
 
     def isYarn(self):
         return self.good_category.alias == GoodCategory.ALIAS_YARN
+
+    def isNeedle(self):
+        return self.good_category.alias == GoodCategory.ALIAS_HOOKS or self.good_category.alias == GoodCategory.ALIAS_NEEDLE
 
     class Meta:
         db_table = 'good'

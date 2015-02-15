@@ -34,15 +34,27 @@
         </p>
         <p class="em price-block">{{ item.price }} руб.</p>
         {% if item.get_sku %}
-            <p class="good-param"><label class="color">Цвет:</label></p>
-            <p>
-                <select name="sku-{{ item.id }}" class="sku" data-required="1" onchange="onSkuChange(this)">
-                    {% for sku in item.get_sku %}
-                        <option value="{{ sku.id }}"  {% if sku.id == item.default_sku.id %} selected {% endif %}" data-in-stock="{% if sku.left_amount > 0 %}1{% endif %}" >{{ sku.vendor_colour }}</option>
-                    {% endfor %}
-                </select>
-                <span class="stock-state">{% if item.default_sku.left_amount > 0 %}В наличии {% else %} Под заказ {% endif %}</span>
-            </p>
+            {% if item.isYarn %}
+                <p class="good-param"><label class="color">Цвет:</label></p>
+                <p>
+                    <select name="sku-{{ item.id }}" class="sku" data-required="1" onchange="onSkuChange(this)">
+                        {% for sku in item.get_sku %}
+                            <option value="{{ sku.id }}"  {% if sku.id == item.default_sku.id %} selected {% endif %}" data-in-stock="{% if sku.left_amount > 0 %}1{% endif %}" >{{ sku.vendor_colour }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="stock-state">{% if item.default_sku.left_amount > 0 %}В наличии {% else %} Под заказ {% endif %}</span>
+                </p>
+            {% elif item.isNeedle %}
+                <p class="good-param"><label class="color">Диаметр:</label></p>
+                <p>
+                    <select name="sku-{{ item.id }}" class="sku" data-required="1" onchange="onSkuChange(this)">
+                        {% for sku in item.get_sku %}
+                            <option value="{{ sku.id }}"  {% if sku.id == item.default_sku.id %} selected {% endif %}" data-in-stock="{% if sku.left_amount > 0 %}1{% endif %}" >{{ sku.dia|floatformat:"-2"  }} мм</option>
+                        {% endfor %}
+                    </select>
+                    <span class="stock-state">{% if item.default_sku.left_amount > 0 %}В наличии {% else %} Под заказ {% endif %}</span>
+                </p>
+            {% endif %}
         {% else %}
             <span class="stock-state">{% if item.left_amount > 0 %}В наличии {% else %} Под заказ {% endif %}</span>
         {% endif %}

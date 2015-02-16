@@ -62,9 +62,10 @@ class GoodsFilterView(ListView, BaseView):
     def get_queryset(self):
         q = models.Good.active()
         if (self.request.GET.get('q', '')):
-            qq = models.Good.search.query(self.request.GET.get('q', '')).order_by('@weight')
+            qq = models.Good.search.query(self.request.GET.get('q', '')).order_by('-@weight')
             ids = [sUtils.intval(x.id) for x in qq[0:100]]
-            q = q.filter(pk__in = ids)
+            # q = q.filter(pk__in = ids)
+            q = qq
 
         logger.debug('args: %s, kwargs: %s' % (json.dumps(self.args), json.dumps(self.kwargs)))
         if (self.kwargs.get('category', '')):
@@ -124,6 +125,9 @@ class GoodsFilterView(ListView, BaseView):
             goods_ids = goods_props.values_list('good_id', flat=True)
             q = q.filter(id__in = goods_ids)
 
-        q = q.order_by('-left_amount')
+        if (self.request.GET.get('q', '')):
+            pass
+        else:
+            q = q.order_by('-left_amount')
         return q
 

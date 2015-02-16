@@ -149,13 +149,13 @@ class Good(models.Model):
     search = SphinxSearch(
         index='idx_products',
         weights={
-            'name': 100,
-            'descr': 60,
+            'name': 50,
+            'descr': 25,
             'vendor_name': 10,
-            'consist_unified': 30,
+            'consist_unified': 15,
         },
         mode='SPH_MATCH_EXTENDED',
-        rankmode='SPH_RANK_NONE',
+        rankmode='SPH_RANK_PROXIMITY_BM25',
     )
 
     @staticmethod

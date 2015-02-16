@@ -390,6 +390,9 @@ function onSkuChange(elem) {
     }
 
     var pp = $(item).parents('.product-preview');
+    if($('.tooltip', cont).length > 0) {
+        $('a.incart', cont).tooltip('hide');
+    }
     thumbRotateTo(pp);
     $(item).trigger('click');
 }

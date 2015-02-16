@@ -7,6 +7,7 @@ from store import models
 import logging
 import json
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 
 logger = logging.getLogger(__name__)
 
@@ -23,10 +24,15 @@ class ProductView(DetailView, BaseView):
         context = super(ProductView, self).get_context_data(**kwargs)
 
         context.update(self.common_vars())
-        if not self.kwargs.get('vendor', False):
-            context['page']['canonical'] = reverse('product_url_long', kwargs={'category': kwargs['object'].good_category.alias, 'vendor': kwargs['object'].vendor.alias, 'slug': kwargs['object'].alias })
-
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if not self.kwargs.get('vendor', False):
+            url = reverse('product_url_long', kwargs={'category': context['object'].good_category.alias, 'vendor': context['object'].vendor.alias, 'slug': context['object'].alias })
+            return redirect(url, permanent=True)
+
+        return super(ProductView, self).render_to_response(context, **response_kwargs)
+
 
     def seo(self):
         s = super(ProductView, self).seo()

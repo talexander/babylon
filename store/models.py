@@ -31,7 +31,7 @@ class Store(models.Model):
 
 class Measure(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 100)
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
     descr = models.CharField(_(u'Описание'), max_length = 100)
 
     def __unicode__(self):
@@ -46,7 +46,7 @@ class Measure(models.Model):
 class PropertyGroup(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     name = models.CharField(_(u'Наименование'), max_length = 255)
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
     def __unicode__(self):
         return u'%s' % self.name
@@ -62,7 +62,7 @@ class Property(models.Model):
     PROP_ALIAS_SEO_DESCR = 'seo_descr'
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     name = models.CharField(_(u'Наименование'), max_length = 255)
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
     measure = models.ForeignKey('Measure', db_column= 'measure', blank = True, null = True, verbose_name = _(u'Единица измерения'))
     property_group = models.ForeignKey('PropertyGroup', db_column = 'property_group', verbose_name = _(u'Группа характеристик'))
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
@@ -83,7 +83,7 @@ class GoodCategory(models.Model):
 
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     name = models.CharField(_(u'Наименование'), max_length = 255)
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     def __unicode__(self):
@@ -136,7 +136,7 @@ class Good(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled'), (FLAG_IN_STOCK, u'In stock'),]
     #  (0x008, u'Под заказ'), (0x010, u'New'), (0x020, u'Акция')
     name = models.CharField(_(u'Наименование'), max_length = 255)
-    alias = models.SlugField(_(u'Алиас'), max_length = 40)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
     good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
     vendor = models.ForeignKey('Vendor', db_column = 'vendor', verbose_name = _(u'Производитель'), blank = True, default = 0, null=True)
     consist = models.ForeignKey('GoodConsist', db_column = 'consist', verbose_name = _(u'Состав (произв.)'), blank = True, default=0, null=True)
@@ -298,7 +298,7 @@ class GoodImage(models.Model):
 class Vendor(models.Model):
     FLAGS = [(0x0001, u'For admin only'), (0x002, u'Disabled')]
     name = models.CharField(_(u'Наименование'), max_length = 100)
-    alias = models.SlugField(_(u'Алиас'), max_length = 50)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
     flags = BitMaskField(_(u'Флаги'), masks = FLAGS, blank = True, default = 0)
 
     def __unicode__(self):
@@ -312,7 +312,7 @@ class Vendor(models.Model):
 
 class GoodConsist(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 100)
-    alias = models.SlugField(_(u'Алиас'), max_length = 50)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -324,7 +324,7 @@ class GoodConsist(models.Model):
 
 class GoodConsistUnified(models.Model):
     name = models.CharField(_(u'Наименование'), max_length = 100)
-    alias = models.SlugField(_(u'Алиас'), max_length = 50)
+    alias = models.SlugField(_(u'Алиас'), max_length = 100)
     good_category = models.ForeignKey('GoodCategory', db_column = 'good_category', verbose_name = _(u'Категория'))
 
     def __unicode__(self):

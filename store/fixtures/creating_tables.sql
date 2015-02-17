@@ -231,3 +231,11 @@ delimiter ;
 
 
 ALTER TABLE product_sku ADD COLUMN dia DECIMAL(12,2) UNSIGNED DEFAULT 0;
+ALTER TABLE property_group MODIFY alias varchar(100) NOT NULL;
+ALTER TABLE good_category MODIFY alias varchar(100) NOT NULL;
+ALTER TABLE property MODIFY alias varchar(100) NOT NULL;
+ALTER TABLE good MODIFY alias varchar(100) NOT NULL;
+ALTER TABLE vendor MODIFY alias varchar(100) NOT NULL;
+ALTER TABLE good_consist MODIFY alias varchar(100) NOT NULL;
+ALTER TABLE good_consist_unified MODIFY alias varchar(100) NOT NULL;
+

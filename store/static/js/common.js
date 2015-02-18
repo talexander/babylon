@@ -183,7 +183,7 @@ function showGoodsPopup(event) {
         return false;
     }
     loader.appendTo(elem);
-    $.ajax('/p/' + elem.attr('id').replace('g', ''), {}).done(function( data ) {
+    $.ajax('/p/' + elem.attr('id').replace('g', '') + '?v=1', {}).done(function( data ) {
         loader.remove();
         elem.data('detail', data);
         showPopup(data, productDetailRender, function(popup) {

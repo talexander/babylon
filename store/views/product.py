@@ -18,6 +18,7 @@ class ProductView(DetailView, BaseView):
     # queryset = models.Good.objects.prefetch_related('good_category','vendor','consist','consist_unified')
     context_object_name = 'item'
     slug_field = 'alias'
+    api_call = False
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -27,7 +28,7 @@ class ProductView(DetailView, BaseView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        if not self.kwargs.get('vendor', False):
+        if not self.api_call and not self.kwargs.get('vendor', False):
             url = reverse('product_url_long', kwargs={'category': context['object'].good_category.alias, 'vendor': context['object'].vendor.alias, 'slug': context['object'].alias })
             return redirect(url, permanent=True)
 

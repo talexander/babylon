@@ -127,7 +127,7 @@ class ProductSKU(models.Model):
         verbose_name_plural = _(u'Артикулы')
 
     def __unicode__(self):
-        return u'ID: %d, артикул: %s' % (self.id, self.vendor_colour)
+        return u'ID: %s, артикул: %s' % (self.id, self.vendor_colour)
 
 
 class Good(models.Model):
